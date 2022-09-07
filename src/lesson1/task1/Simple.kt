@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED_PARAMETER")
+@file:Suppress("Козяков Данил Антонович 3530901/20005")
 
 package lesson1.task1
 
@@ -88,8 +88,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  */
 fun angleInRadian(deg: Int, min: Int, sec: Int): Double {
     val grds = deg + min / 60.0 + sec / 3600.0
-    val rad = Math.toRadians(grds)
-    return rad
+    return Math.toRadians(grds)
 }
 
 /**
@@ -98,7 +97,11 @@ fun angleInRadian(deg: Int, min: Int, sec: Int): Double {
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(sqr(x1 - x2) + sqr(y1 - y2))
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
+    val z1 = sqr(x1 - x2)
+    val z2 = sqr(y1 - y2)
+    return sqrt(z1 + z2)
+}
 
 /**
  * Простая (2 балла)
@@ -116,9 +119,9 @@ fun thirdDigit(number: Int): Int = number / 100 % 10
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
-    val min1 = hoursDepart*60 +minutesDepart
-    val min2= hoursArrive*60+minutesArrive
-    return min2-min1
+    val min1 = hoursDepart * 60 + minutesDepart
+    val min2 = hoursArrive * 60 + minutesArrive
+    return min2 - min1
 }
 
 /**
@@ -129,8 +132,8 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    val k = (100+percent)/100.0
-    val sum = initial*k*k*k
+    val k = (100 + percent) / 100.0
+    val sum = initial * k * k * k
     return sum
 }
 
@@ -141,6 +144,5 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int {
-    val newnumber =  number%10*100+ number/10%10*10 + number/100
-    return  newnumber
+    return number % 10 * 100 + number / 10 % 10 * 10 + number / 100
 }
