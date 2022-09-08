@@ -1,4 +1,4 @@
-@file:Suppress("Козяков Данил Антонович 3530901/20005")
+@file:Suppress("UNUSED_PARAMETER")
 
 package lesson2.task1
 
@@ -116,7 +116,9 @@ fun whichRookThreatens(
     rookX2: Int, rookY2: Int
 ): Int {
     return when {
-        (rookX1 == kingX || rookY1 == kingY) && (rookX2 == kingX || rookY2 == kingY) -> 3
+        (rookX1 == kingX || rookY1 == kingY)
+                && (rookX2 == kingX || rookY2 == kingY) -> 3
+
         rookX1 == kingX || rookY1 == kingY -> 1
         rookX2 == kingX || rookY2 == kingY -> 2
         else -> 0
@@ -141,11 +143,13 @@ fun rookOrBishopThreatens(
     return when {
         (rookX == kingX || rookY == kingY)
                 && ((bishopX + bishopY == kingX + kingY)
-                || (abs(bishopX - bishopY) == abs(kingX - kingY))) -> 3
+                || (abs(bishopX - bishopY)
+                == abs(kingX - kingY))) -> 3
 
         rookX == kingX || rookY == kingY -> 1
         (bishopX + bishopY == kingX + kingY)
-                || (abs(bishopX - bishopY) == abs(kingX - kingY)) -> 2
+                || (abs(bishopX - bishopY)
+                == abs(kingX - kingY)) -> 2
 
         else -> 0
     }

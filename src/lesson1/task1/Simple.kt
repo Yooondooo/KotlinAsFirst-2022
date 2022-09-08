@@ -1,4 +1,4 @@
-@file:Suppress("Козяков Данил Антонович 3530901/20005")
+@file:Suppress("UNUSED_PARAMETER")
 
 package lesson1.task1
 
@@ -65,7 +65,8 @@ fun main() {
  * Пользователь задает время в часах, минутах и секундах, например, 8:20:35.
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
-fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minutes * 60 + seconds
+fun seconds(hours: Int, minutes: Int, seconds: Int): Int =
+    hours * 3600 + minutes * 60 + seconds
 
 /**
  * Тривиальная (1 балл)
@@ -76,8 +77,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minute
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
     val versh = (sagenes * 3 + arshins) * 16 + vershoks
-    val metr = versh * 4.445 / 100
-    return metr
+    return versh * 4.445 / 100
 }
 
 /**
@@ -118,7 +118,10 @@ fun thirdDigit(number: Int): Int = number / 100 % 10
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
+fun travelMinutes(
+    hoursDepart: Int, minutesDepart: Int,
+    hoursArrive: Int, minutesArrive: Int
+): Int {
     val min1 = hoursDepart * 60 + minutesDepart
     val min2 = hoursArrive * 60 + minutesArrive
     return min2 - min1
@@ -133,8 +136,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
     val k = (100 + percent) / 100.0
-    val sum = initial * k * k * k
-    return sum
+    return initial * k * k * k
 }
 
 /**
