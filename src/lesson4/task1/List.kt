@@ -254,6 +254,9 @@ fun factorizeToString(n: Int): String = TODO()
 fun convert(n: Int, base: Int): List<Int> {
     val res = mutableListOf<Int>()
     var n1 = n
+    when{
+        n1 ==0 -> res.add(0)
+    }
     while (n1 > 0) {
         res.add(n1 % base)
         n1 /= base
@@ -283,6 +286,9 @@ fun convertToString(n: Int, base: Int): String {
         's', 't', 'u', 'v', 'w', 'x',
         'y', 'z'
     )
+    when {
+        n1 == 0 -> st+="0"
+    }
     when {
         base <= 10 -> while (n1 > 0) {
             st = (n1 % base).toString() + st
@@ -533,8 +539,8 @@ fun numinStr(fir1: Int, fir2: Int, fir3: Int): String {
             fir2 == 5 -> st += "пятьдесят "
             fir2 == 6 -> st += "шестьдесят "
             fir2 == 7 -> st += "семьдесят "
-            fir2 == 8 -> st += "восьдесят "
-            fir2 == 9 -> st += "десяносто "
+            fir2 == 8 -> st += "восемьдесят "
+            fir2 == 9 -> st += "девяносто "
         }
     }
     return st

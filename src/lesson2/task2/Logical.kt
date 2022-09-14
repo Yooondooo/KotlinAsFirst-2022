@@ -39,13 +39,12 @@ fun queenThreatens(
     x1: Int, y1: Int,
     x2: Int, y2: Int
 ): Boolean =
-  when {
+    when {
         x1 == x2 || y1 == y2 || x1 + y1 == x2 + y2
                 || abs(x1 - y1) == abs(x2 - y2) -> true
 
         else -> false
     }
-
 
 
 /**
@@ -56,27 +55,22 @@ fun queenThreatens(
  */
 fun daysInMonth(month: Int, year: Int): Int {
     when {
-        month == 1 || month in 3..9 -> return when {
-            month == 1 || month == 3 || month == 5
-                    || month == 7 || month == 8 -> 31
+        (year % 4 == 0 && year % 100 != 0)
+                || (year % 400 == 0 && year % 100 == 0)
+        -> return when {
+            month == 2 -> 29
+            month == 4 || month == 6 ||
+                    month == 9 || month == 11 -> 30
 
-            else -> 30
+            else -> 31
         }
 
-        else -> when {
-            (year % 4 == 0 && year%100!=0)
-                    || (year % 400 == 0 && year % 100 == 0)
-            -> return when {
-                month == 2 -> 29
-                month == 11 -> 30
-                else -> 31
-            }
+        else -> return when {
+            month == 2 -> 28
+            month == 4 || month == 6 ||
+                    month == 9 || month == 11 -> 30
 
-            else -> return when {
-                month == 2 -> 28
-                month == 11 -> 31
-                else -> 30
-            }
+            else -> 31
         }
     }
 }
@@ -111,7 +105,7 @@ fun circleInside(
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
     when {
         (a * b <= r * s
-                && ((a <= r && b <= s) || (b <= r || a <= s)))
+                && ((a <= r && b <= s) || (b <= r && a <= s)))
                 || (b * c <= r * s
                 && ((b <= r && c <= s) || (c <= r && b <= s)))
                 || (a * c <= r * s
