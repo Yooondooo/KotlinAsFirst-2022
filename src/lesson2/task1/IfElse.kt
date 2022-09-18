@@ -114,16 +114,12 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int =
-    when {
-        (rookX1 == kingX || rookY1 == kingY)
-                && (rookX2 == kingX || rookY2 == kingY) -> 3
-
-        rookX1 == kingX || rookY1 == kingY -> 1
-        rookX2 == kingX || rookY2 == kingY -> 2
-        else -> 0
-    }
-
+): Int {
+    var qe = 0
+    if (rookX1 == kingX || rookY1 == kingY) qe++
+    if (rookX2 == kingX || rookY2 == kingY) qe += 2
+    return qe
+}
 
 /**
  * Простая (2 балла)
@@ -139,18 +135,15 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int =
-    when {
-        (rookX == kingX || rookY == kingY)
-                && abs(bishopX - kingX)
-                == abs(bishopY - kingY) -> 3
+): Int {
+    var qe = 0
+    if (rookX == kingX || rookY == kingY) qe++
+    if (abs(bishopX - kingX)
+        == abs(bishopY - kingY)
+    ) qe += 2
+    return qe
+}
 
-        rookX == kingX || rookY == kingY -> 1
-        abs(bishopX - kingX)
-                == abs(bishopY - kingY) -> 2
-
-        else -> 0
-    }
 /**
  * Простая (2 балла)
  *
@@ -162,12 +155,13 @@ fun rookOrBishopThreatens(
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     val maxs = max(a, max(b, c)) * max(a, max(b, c))
     var k = 0
-    if (a + b < c || a + c < b || b + c < a)
+    if (a + b < c || a + c < b || b + c < a) {
         k += 1
+        return -1
+    }
     return when {
-        maxs == b * b + c * c + a * a - maxs && k == 0 -> 1
-        maxs < b * b + c * c + a * a - maxs && k == 0 -> 0
-        k == 1 -> -1
+        maxs == b * b + c * c + a * a - maxs -> 1
+        maxs < b * b + c * c + a * a - maxs -> 0
         else -> 2
     }
 }

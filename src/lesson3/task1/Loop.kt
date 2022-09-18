@@ -81,7 +81,7 @@ fun digitNumber(n: Int): Int {
         b /= 10
     }
     when {
-        s == 0 -> return 1
+        n == 0 -> return 1
         else -> return s
     }
 }
@@ -106,7 +106,7 @@ fun fib(n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var k = n
-    for (i in 2..n) {
+    for (i in 2..(sqrt(n.toDouble()).toInt())) {
         when {
             n % i == 0 -> {
                 k = min(k, i)
@@ -123,11 +123,11 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var k = 0
-    for (i in n - 1 downTo 1) {
+    var k = 1
+    for (i in 1..(sqrt(n.toDouble()).toInt())) {
         when {
-            n % i == 0 -> {
-                k = max(k, i)
+            n % i == 0 && n / i != n -> {
+                k = max(k, n / i)
                 break
             }
         }
@@ -156,16 +156,13 @@ fun collatzSteps(x: Int): Int {
     var i = 0
     while (b != 1) {
         when {
-            b % 2 == 0 -> {
-                i += 1
+            b % 2 == 0 ->
                 b /= 2
-            }
 
-            else -> {
-                i += 1
+            else ->
                 b = 3 * b + 1
-            }
         }
+        i++
     }
     return i
 }
@@ -195,20 +192,18 @@ fun lcm(m: Int, n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var del = 0
-    for (i in max(m, n) downTo 1) {
+fun isCoPrime(m: Int, n: Int): Boolean = NOD(m, n) == 1
+
+fun NOD(number1: Int, number2: Int): Int {
+    var a = number1
+    var b = number2
+    while (a != b) {
         when {
-            m % i == 0 && n % i == 0 -> {
-                del = i
-                break
-            }
+            a > b -> a -= b
+            else -> b -= a
         }
     }
-    return when {
-        del == 1 -> true
-        else -> false
-    }
+    return a
 }
 
 /**
@@ -238,12 +233,8 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean {
-    return when {
-        revert(n) == n -> true
-        else -> false
-    }
-}
+fun isPalindrome(n: Int): Boolean =
+    revert(n) == n
 
 /**
  * Средняя (3 балла)
@@ -264,10 +255,7 @@ fun hasDifferentDigits(n: Int): Boolean {
         b = a % 10
         a /= 10
     }
-    return when {
-        i == 0 -> false
-        else -> true
-    }
+    return i != 0
 }
 
 /**
@@ -281,12 +269,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  */
 fun sin(x: Double, eps: Double): Double {
     var x1 = x
-    while (x1 > 2 * PI) {
-        x1 -= 2 * PI
-    }
-    while (x1 < 0) {
-        x1 += 2 * PI
-    }
+    if (x1 > 2 * PI || (x1 < 0)) x1%=2 * PI
     var error = x1
     var sins = x1
     val n = -1.0
@@ -312,12 +295,7 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var x1 = x
-    while (x1 > 2 * PI) {
-        x1 -= 2 * PI
-    }
-    while (x1 < 0) {
-        x1 += 2 * PI
-    }
+    if (x1 > 2 * PI || (x1 < 0)) x1%=2 * PI
     var error = x1
     var coss = 1.0
     val n = -1.0
@@ -342,16 +320,10 @@ fun cos(x: Double, eps: Double): Double {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var prom = 0
-    var kol = 0
     var n1 = n
     var num = 0
     for (i in 1..n) {
-        prom = sqr(i)
-        while (prom > 0) {
-            kol += 1
-            prom /= 10
-        }
+        val kol = digitNumber(sqr(i))
         when {
             kol == n1 -> {
                 num = sqr(i) % 10
@@ -366,7 +338,6 @@ fun squareSequenceDigit(n: Int): Int {
 
             else -> n1 -= kol
         }
-        kol = 0
     }
     return num
 }
@@ -381,16 +352,10 @@ fun squareSequenceDigit(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var prom = 0
-    var kol = 0
     var n1 = n
     var num = 0
     for (i in 1..n) {
-        prom = fib(i)
-        while (prom > 0) {
-            kol += 1
-            prom /= 10
-        }
+        val kol = digitNumber(fib(i))
         when {
             kol == n1 -> {
                 num = fib(i) % 10
@@ -405,7 +370,6 @@ fun fibSequenceDigit(n: Int): Int {
 
             else -> n1 -= kol
         }
-        kol = 0
     }
     return num
 }

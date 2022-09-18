@@ -96,7 +96,14 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val resMap = mutableMapOf<Int, MutableList<String>>()
+    for (i in grades) {
+        if (i.value in resMap.keys) resMap.getValue(i.value) += i.key
+        else resMap[i.value] = mutableListOf(i.key)
+    }
+    return resMap
+}
 
 /**
  * Простая (2 балла)
@@ -108,7 +115,19 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
+    var fal = true
+    while (fal != false) {
+        for ((k, v) in a) {
+            when {
+                a[k] != b[k] -> fal = false
+            }
+        }
+        break
+    }
+    return fal
+}
+
 
 /**
  * Простая (2 балла)
@@ -125,7 +144,9 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
  *     -> a changes to mutableMapOf() aka becomes empty
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
-    TODO()
+    for ((i, j) in b) {
+        if (b[i] == a[i] && b[j] == a[j]) a.remove(i)
+    }
 }
 
 /**
@@ -135,7 +156,13 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * В выходном списке не должно быть повторяющихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
+    val mutSetA = mutableSetOf<String>()
+    val mutSetB = mutableSetOf<String>()
+    mutSetA += a.toSet()
+    mutSetB += b.toSet()
+    return (mutSetA.intersect(mutSetB)).toList()
+}
 
 /**
  * Средняя (3 балла)
@@ -154,7 +181,23 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
+    val resMap = mutableMapOf<String, String>()
+    val resMapB = mutableMapOf<String, String>()
+    val resSet = mutableSetOf<String>()
+    resMapB.putAll(mapB)
+    for (i in mapA) {
+        if (i.key !in resMap) resMap[i.key] = i.value
+        if (i.key !in resSet) for (j in mapB) {
+            if (i.key == j.key && i.value != j.value) {
+                resMap[i.key] += ", ${j.value}"
+            }
+        }
+        resSet.add(i.key)
+    }
+    resMapB.putAll(resMap)
+    return resMapB
+}
 
 /**
  * Средняя (4 балла)
@@ -166,7 +209,36 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
+    val resMap = mutableMapOf<String, Double>()
+    val resMapCount = mutableMapOf<String, Int>()
+    for (i in stockPrices) {
+        val index = resMap[i.first]
+        val indexCount = resMapCount[i.first]
+        when {
+            index != null && indexCount != null -> {
+                val x1 = index + i.second
+                val x2 = indexCount + 1
+                resMap[i.first] = x1
+                resMapCount[i.first] = x2
+            }
+
+            (i.first !in resMap) -> {
+                resMap[i.first] = i.second
+                resMapCount[i.first] = 1
+            }
+        }
+    }
+    for (i in resMap) {
+        val index = resMap[i.key]
+        val indexCount = resMapCount[i.key]
+        if (index != null && indexCount != null) {
+            val op = index / indexCount
+            resMap[i.key] = op
+        }
+    }
+    return resMap
+}
 
 /**
  * Средняя (4 балла)
