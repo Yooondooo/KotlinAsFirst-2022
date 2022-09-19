@@ -331,6 +331,13 @@ fun hasAnagrams(words: List<String>): Boolean = TODO()
  *        )
  */
 fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
+//    val resMap = mutableMapOf<String, Set<String>>()
+//    val listi = mutableListOf<String>()
+//    listi.add(friends)
+//    for (per in friends) {
+//
+//    }
+//}
 
 /**
  * Сложная (6 баллов)
@@ -349,7 +356,20 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    var i = 0
+    val pa = mutableListOf<Pair<Int, Int>>(Pair(-1, -1))
+    abob@ while (i < list.size - 1) {
+        for (j in i..list.size - 1) {
+            if (list[i] + list[j] == number) {
+                pa[0] = Pair(i, j)
+                break@abob
+            }
+        }
+        i++
+    }
+    return pa[0]
+}
 
 /**
  * Очень сложная (8 баллов)

@@ -138,9 +138,7 @@ fun rookOrBishopThreatens(
 ): Int {
     var qe = 0
     if (rookX == kingX || rookY == kingY) qe++
-    if (abs(bishopX - kingX)
-        == abs(bishopY - kingY)
-    ) qe += 2
+    if (abs(bishopX - kingX) == abs(bishopY - kingY)) qe += 2
     return qe
 }
 
@@ -153,10 +151,8 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val maxs = max(a, max(b, c)) * max(a, max(b, c))
-    var k = 0
+    val maxs = maxOf(a,b,c).pow(2)
     if (a + b < c || a + c < b || b + c < a) {
-        k += 1
         return -1
     }
     return when {
