@@ -145,7 +145,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
     for (i in b) {
-        if (b[i.key] == a[i.key] && b[i.value] == a[i.value]) a.remove(i.key)
+        if (a.containsKey(i.key) && b[i.key]==a[i.key]) a.remove(i.key)
     }
 }
 
@@ -259,7 +259,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
     var tr: Pair<String, Double>
     var mi = Double.MAX_VALUE
     var st: String?
-    st = null
+    st = ""
     for (i in stuff) {
         tr = i.value
         if (tr.first == kind)
@@ -268,6 +268,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
                 st = i.key
             }
     }
+    if (mi == Double.MAX_VALUE) st = null
     return st
 }
 
@@ -365,18 +366,21 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     var i = 0
-    val pa = mutableListOf<Pair<Int, Int>>(Pair(-1, -1))
-    abob@ while (i < list.size - 1) {
-        for (j in i..list.size - 1) {
-            if (list[i] + list[j] == number) {
-                pa[0] = Pair(i, j)
-                break@abob
+    var pa: Pair<Int, Int> = Pair(-1, -1)
+    if (list.size == 1 && list[0] == number) {
+        pa = Pair(0, 0)
+        return pa
+    } else
+        abob@ while (i < list.size - 1) {
+            for (j in i..list.size - 1) {
+                if (list[i] + list[j] == number) {
+                    pa = Pair(i, j)
+                    break@abob
+                }
             }
+            i++
         }
-        i++
-    }
-    if (0 in list && number == 0) pa[0] = Pair(0, 0)
-    return pa[0]
+    return pa
 }
 
 /**
