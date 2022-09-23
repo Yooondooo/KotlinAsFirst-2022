@@ -93,7 +93,7 @@ fun dateStrToDigit(str: String): String {
     val x3 = res[2].toInt()
     var y: Int
     if ((x3 % 4 == 0 && x3 % 100 != 0) || (x3 % 400 == 0)) y = 1 else y = 0
-    if (x1 == 29 && x2 == 2 && y == 0) y = 0 else y = 1
+    if (x1 >29 && x2 == 2 && y == 0) y = 0 else y = 1
     if (x1 in 1..31 && x2 in 1..12 && x3 != 0 && y==1)
         return String.format("%02d.%02d.%d", x1, x2, x3)
     else return ""
