@@ -145,7 +145,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
     for (i in b) {
-        if (a.containsKey(i.key) && b[i.key]==a[i.key]) a.remove(i.key)
+        if (a.containsKey(i.key) && b[i.key] == a[i.key]) a.remove(i.key)
     }
 }
 
@@ -367,10 +367,9 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     var i = 0
     var pa: Pair<Int, Int> = Pair(-1, -1)
-    if (list.size == 1 && list[0] == number) {
-        pa = Pair(0, 0)
+    if (list.size == 1)
         return pa
-    } else
+    else
         abob@ while (i < list.size - 1) {
             for (j in i..list.size - 1) {
                 if (list[i] + list[j] == number) {
