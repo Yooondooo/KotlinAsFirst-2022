@@ -105,16 +105,10 @@ fun fib(n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var k = n
     for (i in 2..(sqrt(n.toDouble()).toInt())) {
-        when {
-            n % i == 0 -> {
-                k = min(k, i)
-                break
-            }
-        }
+        if (n % i == 0) return i
     }
-    return k
+    return n
 }
 
 /**
@@ -123,16 +117,10 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var k = 1
-    for (i in 1..(sqrt(n.toDouble()).toInt())) {
-        when {
-            n % i == 0 && n / i != n -> {
-                k = max(k, n / i)
-                break
-            }
-        }
+    for (i in 2..(sqrt(n.toDouble()).toInt())) {
+        if (n % i == 0) return n / i
     }
-    return k
+    return 1
 }
 
 /**
@@ -192,9 +180,9 @@ fun lcm(m: Int, n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = NOD(m, n) == 1
+fun isCoPrime(m: Int, n: Int): Boolean = nod(m, n) == 1
 
-fun NOD(number1: Int, number2: Int): Int {
+fun nod(number1: Int, number2: Int): Int {
     var a = number1
     var b = number2
     while (a != b) {
@@ -245,17 +233,14 @@ fun isPalindrome(n: Int): Boolean =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var i = 0
     var b = n % 10
     var a = n
     while (a > 0) {
-        when {
-            b != a % 10 -> i += 1
-        }
+        if (b != a % 10) return true
         b = a % 10
         a /= 10
     }
-    return i != 0
+    return false
 }
 
 /**
@@ -269,7 +254,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  */
 fun sin(x: Double, eps: Double): Double {
     var x1 = x
-    if (x1 > 2 * PI || (x1 < 0)) x1%=2 * PI
+    if (x1 > 2 * PI || (x1 < 0)) x1 %= 2 * PI
     var error = x1
     var sins = x1
     val n = -1.0
@@ -295,7 +280,7 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var x1 = x
-    if (x1 > 2 * PI || (x1 < 0)) x1%=2 * PI
+    if (x1 > 2 * PI || (x1 < 0)) x1 %= 2 * PI
     var error = x1
     var coss = 1.0
     val n = -1.0
@@ -324,20 +309,11 @@ fun squareSequenceDigit(n: Int): Int {
     var num = 0
     for (i in 1..n) {
         val kol = digitNumber(sqr(i))
-        when {
-            kol == n1 -> {
-                num = sqr(i) % 10
-                break
-            }
-
-            kol >= n1 -> {
-                num = sqr(i) /
-                        (10.0.pow(kol - n1).toInt()) % 10
-                break
-            }
-
-            else -> n1 -= kol
-        }
+        if (kol >= n1) {
+            num = sqr(i) /
+                    (10.0.pow(kol - n1).toInt()) % 10
+            break
+        } else n1 -= kol
     }
     return num
 }
@@ -356,20 +332,11 @@ fun fibSequenceDigit(n: Int): Int {
     var num = 0
     for (i in 1..n) {
         val kol = digitNumber(fib(i))
-        when {
-            kol == n1 -> {
-                num = fib(i) % 10
-                break
-            }
-
-            kol >= n1 -> {
-                num = fib(i) /
-                        (10.0.pow(kol - n1).toInt()) % 10
-                break
-            }
-
-            else -> n1 -= kol
-        }
+        if (kol >= n1) {
+            num = fib(i) /
+                    (10.0.pow(kol - n1).toInt()) % 10
+            break
+        } else n1 -= kol
     }
     return num
 }
