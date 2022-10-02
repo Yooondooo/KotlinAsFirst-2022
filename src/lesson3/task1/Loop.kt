@@ -116,12 +116,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    for (i in 2..(sqrt(n.toDouble()).toInt())) {
-        if (n % i == 0) return n / i
-    }
-    return 1
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая (2 балла)
@@ -161,17 +156,7 @@ fun collatzSteps(x: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    var a = m
-    var b = n
-    while (a != b) {
-        when {
-            a > b -> a -= b
-            else -> b -= a
-        }
-    }
-    return m * n / a
-}
+fun lcm(m: Int, n: Int): Int = m * n / nod(m, n)
 
 /**
  * Средняя (3 балла)
@@ -306,13 +291,12 @@ fun cos(x: Double, eps: Double): Double {
  */
 fun squareSequenceDigit(n: Int): Int {
     var n1 = n
-    var num = 0
+    val num = 0
     for (i in 1..n) {
         val kol = digitNumber(sqr(i))
         if (kol >= n1) {
-            num = sqr(i) /
+            return sqr(i) /
                     (10.0.pow(kol - n1).toInt()) % 10
-            break
         } else n1 -= kol
     }
     return num
@@ -329,13 +313,12 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int {
     var n1 = n
-    var num = 0
+    val num = 0
     for (i in 1..n) {
         val kol = digitNumber(fib(i))
         if (kol >= n1) {
-            num = fib(i) /
+            return fib(i) /
                     (10.0.pow(kol - n1).toInt()) % 10
-            break
         } else n1 -= kol
     }
     return num
