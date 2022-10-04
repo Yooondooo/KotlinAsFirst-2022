@@ -202,7 +202,7 @@ fun firstDuplicateIndex(str: String): Int {
     val tr = str.lowercase()
     val res = tr.split(" ")
     var sum = 0
-    if (res.size < 2) return -1
+    if (res.size < 2 || (res.size == 2 && res[0] != res[1])) return -1
     for (i in 0..res.size - 1) {
         if (res[i] == res[i + 1]) {
             return sum
@@ -224,6 +224,25 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть больше нуля либо равны нулю.
  */
 fun mostExpensive(description: String): String = TODO()
+//    val r = description.split("; ")
+//    val res = mutableMapOf<String, Double>()
+//    if (r.size == 1) return ""
+//    for (i in 0..r.size - 1) {
+//        val a = r[i].split(" ")
+//        if (a[0].any { it.isDigit() } || a[1].any { !it.isDigit() || it == '.' }) return ""
+//        res[a[0]] = a[1].toDouble()
+//    }
+//    println(res)
+//    var maxx = 0.0
+//    var m = ""
+//    for (i in res) {
+//        if (i.value > maxx) {
+//            maxx = max(maxx, i.value)
+//            m = i.key
+//        }
+//    }
+//    return m
+//}
 
 /**
  * Сложная (6 баллов)
