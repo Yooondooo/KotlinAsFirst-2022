@@ -1,7 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
 
 package lesson6.task1
+
 import lesson2.task2.daysInMonth
+import kotlin.math.max
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
@@ -75,27 +77,28 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
-//    val alf: List<String> = listOf(
-//        "января", "февраля", "марта", "апреля",
-//        "мая", "июня", "июля", "августа", "сентября",
-//        "октября", "ноября", "декабря"
-//    )
-//    val res = str.split(' ')
-//    if (res.size < 3) return ""
-//    val x1 = res[0].toInt()
-//    var x= 0
-//    for (j in 0..alf.size - 1) {
-//        if (alf[j] == res[1]) {
-//            x = j + 1
-//        }
-//    }
-//    val x2 = x
-//    val x3 = res[2].toInt()
-//    if (x1 <= daysInMonth(x2,x3) && x2 in 1..12 && x3 != 0)
-//        return String.format("%02d.%02d.%d", x1, x2, x3)
-//    else return ""
-//}
+fun dateStrToDigit(str: String): String {
+    val alf: List<String> = listOf(
+        "января", "февраля", "марта", "апреля",
+        "мая", "июня", "июля", "августа", "сентября",
+        "октября", "ноября", "декабря"
+    )
+    val res = str.split(' ')
+    if (res.size != 3) return ""
+    if (res[0].any { !it.isDigit() } || res[2].any { !it.isDigit() }) return ""
+    val x1 = res[0].toInt()
+    var x = 0
+    for (j in 0..alf.size - 1) {
+        if (alf[j] == res[1]) {
+            x = j + 1
+        }
+    }
+    val x2 = x
+    val x3 = res[2].toInt()
+    if (x1 <= daysInMonth(x2, x3) && x2 in 1..12 && x3 != 0)
+        return String.format("%02d.%02d.%d", x1, x2, x3)
+    else return ""
+}
 
 /**
  * Средняя (4 балла)
@@ -148,7 +151,15 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val res = jumps.split(" ")
+    var maxx = -1
+    for (i in 0..res.size - 2) {
+        if (res[i].all { it.isDigit() } && res[i + 1] == "+")
+            maxx = max(maxx, res[i].toInt())
+    }
+    return maxx
+}
 
 /**
  * Сложная (6 баллов)
@@ -159,7 +170,24 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val res = expression.split(" ")
+    if (res.size == 0 || res[0].any { !it.isDigit() }) throw IllegalArgumentException()
+    else if (res.size == 1) return res[0].toInt()
+    for (i in 0..res.size - 2 step 2) {
+        if (res[i].any { !it.isDigit() }) throw IllegalArgumentException()
+        if (res[i + 1].any { it.isDigit() }) throw IllegalArgumentException()
+    }
+    if (res.size % 2 != 0) {
+        if (res[res.size - 1].any { !it.isDigit() }) throw IllegalArgumentException()
+    }
+    var sum = res[0].toInt()
+    for (i in 1..res.size - 2 step 2) {
+        if (res[i] == "+") sum += res[i + 1].toInt()
+        else sum -= res[i + 1].toInt()
+    }
+    return sum
+}
 
 /**
  * Сложная (6 баллов)
@@ -170,7 +198,19 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val tr = str.lowercase()
+    val res = tr.split(" ")
+    var sum = 0
+    if (res.size<2) return -1
+    for (i in 0..res.size - 1) {
+        if (res[i] == res[i + 1]) {
+            return sum
+        }
+        sum += res[i].length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная (6 баллов)
