@@ -202,8 +202,8 @@ fun firstDuplicateIndex(str: String): Int {
     val tr = str.lowercase()
     val res = tr.split(" ")
     var sum = 0
-    if (res.size < 2 || (res.size == 2 && res[0] != res[1])) return -1
-    for (i in 0..res.size - 1) {
+    if (res.size < 2) return -1
+    for (i in 0..res.size - 2) {
         if (res[i] == res[i + 1]) {
             return sum
         }
