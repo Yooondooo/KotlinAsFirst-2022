@@ -269,9 +269,7 @@ fun convertToString(n: Int, base: Int): String {
     var c = 0
     var sti = listOf<Int>()
     val alf = "abcdefghijklmnopqrstuvwxyz"
-    when {
-        n1 == 0 -> st += "0"
-    }
+    if (n==0) return "0"
     when {
         base <= 10 -> {
             sti = convert(n, base)
