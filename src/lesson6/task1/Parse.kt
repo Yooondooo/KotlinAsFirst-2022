@@ -65,7 +65,11 @@ fun main() {
     }
 }
 
-
+val alf: List<String> = listOf(
+    "января", "февраля", "марта", "апреля",
+    "мая", "июня", "июля", "августа", "сентября",
+    "октября", "ноября", "декабря"
+)
 /**
  * Средняя (4 балла)
  *
@@ -78,11 +82,6 @@ fun main() {
  * входными данными.
  */
 fun dateStrToDigit(str: String): String {
-    val alf: List<String> = listOf(
-        "января", "февраля", "марта", "апреля",
-        "мая", "июня", "июля", "августа", "сентября",
-        "октября", "ноября", "декабря"
-    )
     val res = str.split(' ')
     if (res.size != 3) return ""
     if (res[0].any { !it.isDigit() } || res[2].any { !it.isDigit() }) return ""

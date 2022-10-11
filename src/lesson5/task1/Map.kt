@@ -116,16 +116,10 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
-    var fal = true
-    while (fal != false) {
-        for ((k, v) in a) {
-            when {
-                a[k] != b[k] -> fal = false
-            }
-        }
-        break
+    for (i in a) {
+        if (a[i.key] != b[i.key]) return false
     }
-    return fal
+    return true
 }
 
 
@@ -157,10 +151,8 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val mutSetA = mutableSetOf<String>()
-    val mutSetB = mutableSetOf<String>()
-    mutSetA += a.toSet()
-    mutSetB += b.toSet()
+    val mutSetA = a.toSet()
+    val mutSetB = b.toSet()
     return (mutSetA.intersect(mutSetB)).toList()
 }
 
@@ -183,14 +175,16 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
     val resMap = mutableMapOf<String, String>()
-    val resMapB = mutableMapOf<String, String>()
+    val resMapB = mapB.toMutableMap()
     val resSet = mutableSetOf<String>()
-    resMapB.putAll(mapB)
     for (i in mapA) {
-        if (i.key !in resMap) resMap[i.key] = i.value
-        if (i.key !in resSet) for (j in mapB) {
-            if (i.key == j.key && i.value != j.value) {
-                resMap[i.key] += ", ${j.value}"
+        if (i.key !in resMap)
+            resMap[i.key] = i.value
+        if (i.key !in resSet) {
+            for (j in mapB) {
+                if (i.key == j.key && i.value != j.value) {
+                    resMap[i.key] += ", ${j.value}"
+                }
             }
         }
         resSet.add(i.key)

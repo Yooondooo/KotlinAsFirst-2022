@@ -3,8 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import kotlin.math.pow
-import kotlin.math.sqrt
+import kotlin.math.*
 
 // Урок 4: списки
 // Максимальное количество баллов = 12
@@ -114,6 +113,34 @@ fun isPalindrome(str: String): Boolean {
  */
 fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", postfix = " = ${list.sum()}")
 
+val r = mapOf(
+    1000 to 'M', 900 to "CM", 500 to 'D',
+    400 to "CD", 100 to 'C', 90 to "XC", 50 to 'L',
+    40 to "XL", 10 to 'X', 9 to "IX", 5 to 'V', 4 to "IV",
+    1 to 'I'
+)
+val alf1 = "0123456789abcdefghijklmnopqrstuvwxyz"
+val hundreds = mapOf<Int, String>(
+    1 to "сто ", 2 to "двести ", 3 to "триста ", 4 to "четыреста ",
+    5 to "пятьсот ", 6 to "шестьсот ", 7 to "семьсот ", 8 to "восемьсот ",
+    9 to "девятьсот "
+)
+val exceptions = mapOf<Int, String>(
+    0 to "десять ", 1 to "одиннадцать ", 2 to "двенадцать ",
+    3 to "тринадцать ", 4 to "четырнадцать ", 5 to "пятнадцать ",
+    6 to "шестнадцать ", 7 to "семнадцать ", 8 to "восемнадцать ",
+    9 to "девятнадцать "
+)
+val dozens = mapOf<Int, String>(
+    2 to "двадцать ", 3 to "тридцать ", 4 to "сорок ", 5 to "пятьдесят ",
+    6 to "шестьдесят ", 7 to "семьдесят ", 8 to "восемьдесят ", 9 to "девяносто "
+)
+val units = mapOf<Int, String>(
+    1 to "один", 2 to "два", 3 to "три ", 4 to "четыре ",
+    5 to "пять ", 6 to "шесть ", 7 to "семь ", 8 to "восемь ",
+    9 to "девять ", 11 to "одна ", 12 to "две "
+)
+
 /**
  * Простая (2 балла)
  *
@@ -181,15 +208,12 @@ fun times(a: List<Int>, b: List<Int>): Int {
  */
 fun polynom(p: List<Int>, x: Int): Int {
     var mnch = 0
-    var count = 0
-    val x1 = x.toDouble()
+    var x1 = 1
     for (i in 0..p.size - 1) {
-        mnch += (p[i] * (x1.pow(i).toInt()))
+        mnch += p[i] * x1
+        x1 *= x
     }
-    return when {
-        p.isEmpty() -> 0
-        else -> mnch
-    }
+    return mnch
 }
 
 /**
@@ -263,32 +287,16 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
+
 fun convertToString(n: Int, base: Int): String {
     var st = ""
     var n1 = n
-    var c = 0
-    var sti = listOf<Int>()
-    val alf = "abcdefghijklmnopqrstuvwxyz"
-    if (n==0) return "0"
-    when {
-        base <= 10 -> {
-            sti = convert(n, base)
-            for (i in sti) {
-                st += i.toString()
-                st.reversed()
-            }
-        }
-
-        else -> while (n1 > 0) {
-            c = n1 % base
-            when {
-                c < 10 -> st = c.toString() + st
-                else -> st = alf[c - 10].toString() + st
-            }
-            n1 /= base
-        }
+    if (n == 0) return "0"
+    while (n1 > 0) {
+        st += alf1[n1 % base]
+        n1 /= base
     }
-    return st
+    return st.reversed()
 }
 
 /**
@@ -321,13 +329,13 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
+
 fun decimalFromString(str: String, base: Int): Int {
     val st = str
     val lip = mutableListOf<Int>()
-    val alf = "0123456789abcdefghijklmnopqrstuvwxyz"
     for (i in st) {
-        for (j in 0..alf.length - 1) {
-            if (i == alf[j]) {
+        for (j in 0..alf1.length - 1) {
+            if (i == alf1[j]) {
                 lip += j
                 break
             }
@@ -347,12 +355,6 @@ fun decimalFromString(str: String, base: Int): Int {
 fun roman(n: Int): String {
     var n1 = n
     var st = ""
-    val r = mapOf(
-        1000 to 'M', 900 to "CM", 500 to 'D',
-        400 to "CD", 100 to 'C', 90 to "XC", 50 to 'L',
-        40 to "XL", 10 to 'X', 9 to "IX", 5 to 'V', 4 to "IV",
-        1 to 'I'
-    )
     for (i in r) {
         while (n1 >= i.key) {
             st += i.value
@@ -393,26 +395,11 @@ fun russian(n: Int): String {
     return st.trim()
 }
 
-fun numinStr(fir1: Int, fir2: Int, fir3: Int): String {
+fun numinStr(first: Int, second: Int, third: Int): String {
     var st = ""
-    val hundreds = mapOf<Int, String>(
-        1 to "сто ", 2 to "двести ", 3 to "триста ", 4 to "четыреста ",
-        5 to "пятьсот ", 6 to "шестьсот ", 7 to "семьсот ", 8 to "восемьсот ",
-        9 to "девятьсот "
-    )
-    val exceptions = mapOf<Int, String>(
-        0 to "десять ", 1 to "одиннадцать ", 2 to "двенадцать ",
-        3 to "тринадцать ", 4 to "четырнадцать ", 5 to "пятнадцать ",
-        6 to "шестнадцать ", 7 to "семнадцать ", 8 to "восемнадцать ",
-        9 to "девятнадцать "
-    )
-    val dozens = mapOf<Int, String>(
-        2 to "двадцать ", 3 to "тридцать ", 4 to "сорок ", 5 to "пятьдесят ",
-        6 to "шестьдесят ", 7 to "семьдесят ", 8 to "восемьдесят ", 9 to "девяносто "
-    )
-    if (fir1 > 0) st += hundreds[fir1]
-    if (fir2 == 1) st += exceptions[fir3]
-    else if (fir2 != 0) st += dozens[fir2]
+    if (first > 0) st += hundreds[first]
+    if (second == 1) st += exceptions[third]
+    else if (second != 0) st += dozens[second]
     return st
 }
 
@@ -428,15 +415,10 @@ fun thousend(a: Int, b: Int): String {
     return st
 }
 
-fun last(fir3: Int, b: Int, a: Int): String {
+fun last(third: Int, b: Int, a: Int): String {
     var st = ""
-    val units = mapOf<Int, String>(
-        1 to "один", 2 to "два", 3 to "три ", 4 to "четыре ",
-        5 to "пять ", 6 to "шесть ", 7 to "семь ", 8 to "восемь ",
-        9 to "девять ", 11 to "одна ", 12 to "две "
-    )
     if (a != 1)
-        if (fir3 in 3..9) st += units[fir3]
-        else if(fir3 != 0 ) st += units[fir3 + b * 10]
+        if (third in 3..9) st += units[third]
+        else if (third != 0) st += units[third + b * 10]
     return st
 }
