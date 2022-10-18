@@ -229,17 +229,16 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
         if (l != "") {
             var st = ""
             for (i in 0..line.length - 1) {
-
                 val p = dict[line[i].toLowerCase()]
                 if (p != null)
-                    st += p.toLowerCase()
+                    if (line[i] in dict1)
+                        st += (p.toLowerCase()).capitalize()
+                    else
+                        st += p.toLowerCase()
                 else
                     st += line[i]
             }
-            if (line[0] in dict1)
-                write.write(st.capitalize())
-            else
-                write.write(st)
+            write.write(st)
         }
         write.newLine()
     }
