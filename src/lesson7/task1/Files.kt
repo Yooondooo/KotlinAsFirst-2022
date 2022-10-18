@@ -216,7 +216,7 @@ fun top20Words(inputName: String): Map<String, Int> = TODO()
  *
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
-const val dict1 = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+const val dict1 = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ"
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
     val write = File(outputName).bufferedWriter()
     val dict = mutableMapOf<Char, String>()
