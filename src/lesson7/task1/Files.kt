@@ -235,7 +235,7 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
                 if (p != null)
                     st += p.toLowerCase()
                 else
-                    st += line[i].toLowerCase()
+                    st += line[i]
             }
             if (o > 0)
                 write.write(st.capitalize())
