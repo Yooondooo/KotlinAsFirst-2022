@@ -223,7 +223,8 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
     for ((key, value) in dictionary) {
         dict[key.toUpperCase()] = value
     }
-    dict[' '] = " "
+    if (dict[' '] == null)
+        dict[' '] = " "
     for (line in File(inputName).readLines()) {
         val l = line
         if (l != "") {
