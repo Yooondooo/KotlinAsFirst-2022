@@ -216,12 +216,12 @@ fun top20Words(inputName: String): Map<String, Int> = TODO()
  *
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
-const val dict1 = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ"
+const val multiAlphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ"
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
     val write = File(outputName).bufferedWriter()
     val dict = mutableMapOf<Char, String>()
     for ((key, value) in dictionary) {
-        dict[key.toLowerCase()] = value
+        dict[key.toUpperCase()] = value
     }
     dict[' '] = " "
     for (line in File(inputName).readLines()) {
@@ -229,9 +229,9 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
         if (l != "") {
             var st = ""
             for (i in 0..line.length - 1) {
-                val p = dict[line[i].toLowerCase()]
+                val p = dict[line[i].toUpperCase()]
                 if (p != null)
-                    if (line[i] in dict1)
+                    if (line[i] in multiAlphabet)
                         st += (p.toLowerCase()).capitalize()
                     else
                         st += p.toLowerCase()

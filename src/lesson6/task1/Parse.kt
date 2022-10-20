@@ -65,7 +65,7 @@ fun main() {
     }
 }
 
-val alf: List<String> = listOf(
+val months: List<String> = listOf(
     "января", "февраля", "марта", "апреля",
     "мая", "июня", "июля", "августа", "сентября",
     "октября", "ноября", "декабря"
@@ -88,8 +88,8 @@ fun dateStrToDigit(str: String): String {
     if (res[0].any { !it.isDigit() } || res[2].any { !it.isDigit() }) return ""
     val x1 = res[0].toInt()
     var x = 0
-    for (j in 0..alf.size - 1) {
-        if (alf[j] == res[1]) {
+    for (j in 0..months.size - 1) {
+        if (months[j] == res[1]) {
             x = j + 1
         }
     }

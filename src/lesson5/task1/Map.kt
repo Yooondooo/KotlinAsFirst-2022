@@ -365,9 +365,13 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
         return pa
     resmap[list[0]] = 0
     for (i in 1 until list.size) {
-        val a = list[i-1]
+        val a = list[i - 1]
+        val listNull = resmap[list[i]]
+        if (listNull != null && list[i] * 2 == number) {
+            return Pair(listNull, i)
+        }
         resmap[list[i]] = i
-        if (a + list[i]==number) return Pair(i-1,i)
+        if (a + list[i] == number) return Pair(i - 1, i)
     }
     for (i in resmap) {
         val a = resmap.get(number - i.key)
