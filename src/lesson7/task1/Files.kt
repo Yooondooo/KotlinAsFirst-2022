@@ -128,10 +128,10 @@ fun sibilants(inputName: String, outputName: String) {
 fun centerFile(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     var maxx = 0
-    for (i in File(inputName).readLines()){
+    for (i in File(inputName).readLines()) {
         maxx = max(maxx, i.trim().length)
     }
-    for (i in File(inputName).readLines()){
+    for (i in File(inputName).readLines()) {
         for (j in 0 until (maxx - i.trim().length) / 2) writer.write(" ")
         writer.write(i.trim())
         writer.newLine()
@@ -331,8 +331,48 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    writer.write("<html>\n<body>\n<p>")
+    writer.newLine()
+    for (i in File(inputName).readLines()) {
+        var italics = true
+        var bold = true
+        var strikethrough = true
+        var del = 10000
+        if (i == "") writer.write("</p>\n<p>\n")
+        else {
+            for (j in 0..i.length - 2) {
+                if (j == del) continue
+                if (i[j] == '*' && i[j + 1] == '*') {
+                    if (bold) writer.write("<b>")
+                    else writer.write("</b>")
+                    bold = !bold
+                    del = j + 1
+                    continue
+                }
+                if (i[j] == '~' && i[j + 1] == '~') {
+                    if (strikethrough) writer.write("<s>")
+                    else writer.write("</s>")
+                    strikethrough = !strikethrough
+                    del = j + 1
+                    continue
+                }
+                if (i[j] == '*') {
+                    if (italics) writer.write("<i>")
+                    else writer.write("</i>")
+                    italics = !italics
+                    continue
+                }
+                writer.write(i[j].toString())
+            }
+            if (i[i.length - 1] == '*') writer.write("</i>")
+            else writer.write(i[i.length-1].toString())
+        }
+    }
+    writer.write("</p>\n</body>\n</html>")
+    writer.close()
 }
+
 
 /**
  * Сложная (23 балла)
