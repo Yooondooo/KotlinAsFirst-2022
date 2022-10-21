@@ -365,8 +365,11 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
                 }
                 writer.write(i[j].toString())
             }
-            if (i[i.length - 1] == '*') writer.write("</i>")
-            else writer.write(i[i.length-1].toString())
+            if (i[i.length - 1] == '*') {
+                if (italics) writer.write("<i>")
+                else writer.write("</i>")
+                italics = !italics
+            } else writer.write(i[i.length - 1].toString())
         }
     }
     writer.write("</p>\n</body>\n</html>")
