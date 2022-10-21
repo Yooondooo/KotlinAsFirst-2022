@@ -334,11 +334,11 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     writer.write("<html>\n<body>\n<p>")
     writer.newLine()
+    var italics = true
+    var bold = true
+    var strikethrough = true
+    var del = 10000
     for (i in File(inputName).readLines()) {
-        var italics = true
-        var bold = true
-        var strikethrough = true
-        var del = 10000
         if (i == "") writer.write("</p>\n<p>\n")
         else {
             for (j in 0..i.length - 2) {
