@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import kotlin.math.max
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -125,7 +126,17 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    var maxx = 0
+    for (i in File(inputName).readLines()){
+        maxx = max(maxx, i.trim().length)
+    }
+    for (i in File(inputName).readLines()){
+        for (j in 0 until (maxx - i.trim().length) / 2) writer.write(" ")
+        writer.write(i.trim())
+        writer.newLine()
+    }
+    writer.close()
 }
 
 /**
