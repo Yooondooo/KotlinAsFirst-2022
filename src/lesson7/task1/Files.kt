@@ -337,33 +337,42 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     var italics = true
     var bold = true
     var strikethrough = true
-    var del = 10000
     for (i in File(inputName).readLines()) {
         if (i == "") writer.write("</p>\n<p>\n")
         else {
+            var del = false
             for (j in 0..i.length - 2) {
-                if (j == del) continue
-                if (i[j] == '*' && i[j + 1] == '*') {
-                    if (bold) writer.write("<b>")
-                    else writer.write("</b>")
-                    bold = !bold
-                    del = j + 1
-                    continue
+                when {
+                    del -> {
+                        del = !del
+                        continue
+                    }
+
+                    (i[j] == '*' && i[j + 1] == '*') -> {
+                        if (bold) writer.write("<b>")
+                        else writer.write("</b>")
+                        bold = !bold
+                        del = true
+                        continue
+                    }
+
+                    (i[j] == '~' && i[j + 1] == '~') -> {
+                        if (strikethrough) writer.write("<s>")
+                        else writer.write("</s>")
+                        strikethrough = !strikethrough
+                        del = true
+                        continue
+                    }
+
+                    (i[j] == '*') -> {
+                        if (italics) writer.write("<i>")
+                        else writer.write("</i>")
+                        italics = !italics
+                        continue
+                    }
+
+                    else -> writer.write(i[j].toString())
                 }
-                if (i[j] == '~' && i[j + 1] == '~') {
-                    if (strikethrough) writer.write("<s>")
-                    else writer.write("</s>")
-                    strikethrough = !strikethrough
-                    del = j + 1
-                    continue
-                }
-                if (i[j] == '*') {
-                    if (italics) writer.write("<i>")
-                    else writer.write("</i>")
-                    italics = !italics
-                    continue
-                }
-                writer.write(i[j].toString())
             }
             if (i[i.length - 1] == '*') {
                 if (italics) writer.write("<i>")
