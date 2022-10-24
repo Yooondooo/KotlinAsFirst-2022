@@ -3,7 +3,7 @@
 package lesson7.task1
 
 import java.io.File
-import kotlin.math.max
+import kotlin.math.*
 import lesson3.task1.digitNumber
 import kotlin.math.pow
 
@@ -582,9 +582,11 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             sr = "0"
             dill += 1
         }
+        var ddll = digitNumber(min)
         while (newLhv >= rhv) {
             k = digitNumber(newLhv) - digitNumber(rhv)
             num = newLhv / ten.pow(k).toInt()
+            ddll = del - 1 + dill
             if (num < rhv) {
                 resList.add(tos(del) + sr + "$num")
                 resList.add(tos(del + dill) + "-0")
@@ -592,13 +594,13 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
                 num = newLhv / ten.pow(k - 1).toInt()
                 resList.add(tos(del) + sr + "$num")
                 min = num - (num % rhv)
-                resList.add(tos(del - 1 + dill) + "-$min")
-                resList.add(tos(del - 1 + dill) + toi(digitNumber(num) + 1))
+                resList.add(tos(ddll) + "-$min")
+                resList.add(tos(ddll) + toi(digitNumber(num) + 1))
             } else {
                 resList.add(tos(del) + sr + "$num")
                 min = num - (num % rhv)
-                resList.add(tos(del - 1 + dill) + "-$min")
-                resList.add(tos(del - 1 + dill) + toi(digitNumber(num) + 1))
+                resList.add(tos(ddll) + "-$min")
+                resList.add(tos(ddll) + toi(digitNumber(num) + 1))
             }
             newLhv -= min * ten.pow(k).toInt()
             del += digitNumber(num)
@@ -608,9 +610,10 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
                 sr = "0"
                 dill += 1
             }
+            ddll += digitNumber(min)
         }
         val op = lhv % rhv
-        resList.add(tos(del - 1 + dill) + "$op")
+        resList.add(tos(ddll) + "$op")
     }
     for (i in resList) {
         writer.write(i)
