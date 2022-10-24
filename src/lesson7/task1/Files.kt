@@ -4,6 +4,8 @@ package lesson7.task1
 
 import java.io.File
 import kotlin.math.max
+import lesson3.task1.digitNumber
+import kotlin.math.pow
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -331,59 +333,59 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    val writer = File(outputName).bufferedWriter()
-    val ifile = File(inputName).readLines()
-    writer.write("<html>\n<body>\n<p>")
-    writer.newLine()
-    for (i in ifile) {
-        if (i == "" && i != ifile.last()) writer.write("</p>\n<p>\n")
-        else {
-            var del = false
-            var italics = true
-            var bold = true
-            var strikethrough = true
-            for (j in 0..i.length - 2) {
-                when {
-                    del -> {
-                        del = !del
-                        continue
-                    }
-
-                    (i[j] == '*' && i[j + 1] == '*') -> {
-                        if (bold) writer.write("<b>")
-                        else writer.write("</b>")
-                        bold = !bold
-                        del = true
-                        continue
-                    }
-
-                    (i[j] == '~' && i[j + 1] == '~') -> {
-                        if (strikethrough) writer.write("<s>")
-                        else writer.write("</s>")
-                        strikethrough = !strikethrough
-                        del = true
-                        continue
-                    }
-
-                    (i[j] == '*') -> {
-                        if (italics) writer.write("<i>")
-                        else writer.write("</i>")
-                        italics = !italics
-                        continue
-                    }
-
-                    else -> writer.write(i[j].toString())
-                }
-            }
-            if (i[i.length - 1] == '*') {
-                if (italics) writer.write("<i>")
-                else writer.write("</i>")
-                italics = !italics
-            } else writer.write(i[i.length - 1].toString())
-        }
-    }
-    writer.write("</p>\n</body>\n</html>")
-    writer.close()
+//    val writer = File(outputName).bufferedWriter()
+//    val ifile = File(inputName).readLines()
+//    writer.write("<html>\n<body>\n<p>")
+//    writer.newLine()
+//    var italics = true
+//    var bold = true
+//    var strikethrough = true
+//    for (i in ifile) {
+//        if (i == "" && i != ifile.last()) writer.write("</p>\n<p>\n")
+//        else {
+//            var del = false
+//            for (j in 0..i.length - 2) {
+//                when {
+//                    del -> {
+//                        del = !del
+//                        continue
+//                    }
+//
+//                    (i[j] == '*' && i[j + 1] == '*') -> {
+//                        if (bold) writer.write("<b>")
+//                        else writer.write("</b>")
+//                        bold = !bold
+//                        del = true
+//                        continue
+//                    }
+//
+//                    (i[j] == '~' && i[j + 1] == '~') -> {
+//                        if (strikethrough) writer.write("<s>")
+//                        else writer.write("</s>")
+//                        strikethrough = !strikethrough
+//                        del = true
+//                        continue
+//                    }
+//
+//                    (i[j] == '*') -> {
+//                        if (italics) writer.write("<i>")
+//                        else writer.write("</i>")
+//                        italics = !italics
+//                        continue
+//                    }
+//
+//                    else -> writer.write(i[j].toString())
+//                }
+//            }
+//            if (i[i.length - 1] == '*') {
+//                if (italics) writer.write("<i>")
+//                else writer.write("</i>")
+//                italics = !italics
+//            } else writer.write(i[i.length - 1].toString())
+//        }
+//    }
+//    writer.write("</p>\n</body>\n</html>")
+//    writer.close()
 }
 
 
@@ -551,6 +553,85 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  *
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    val resList = mutableListOf<String>(" $lhv | $rhv")
+    var newLhv = lhv
+    val ten = 10.0
+    var dill = 0
+    var sr = ""
+    if (lhv / rhv == 0) {
+        val prop = digitNumber(lhv) + 2
+        resList.add("-0" + tos(prop) + "0")
+        resList.add("--")
+        resList.add(" $lhv")
+    } else {
+        var k = digitNumber(lhv) - digitNumber(rhv)
+        var num = newLhv / ten.pow(k).toInt()
+        if (num < rhv) {
+            k -= 1
+            num = newLhv / ten.pow(k).toInt()
+        }
+        var min = num - (num % rhv)
+        var del = lhv / rhv
+        val prop = digitNumber(lhv) - digitNumber(min) + 3
+        resList.add("-$min" + tos(prop) + "$del")
+        newLhv -= min * ten.pow(k).toInt()
+        del = digitNumber(min)
+        resList.add(toi(del + 1))
+        if (num == min) {
+            sr = "0"
+            dill += 1
+        }
+        while (newLhv >= rhv) {
+            k = digitNumber(newLhv) - digitNumber(rhv)
+            num = newLhv / ten.pow(k).toInt()
+            if (num < rhv) {
+                resList.add(tos(del) + sr + "$num")
+                resList.add(tos(del + dill) + "-0")
+                resList.add(tos(del) + toi(digitNumber(num)))
+                num = newLhv / ten.pow(k - 1).toInt()
+                resList.add(tos(del) + sr + "$num")
+                min = num - (num % rhv)
+                resList.add(tos(del - 1 + dill) + "-$min")
+                resList.add(tos(del - 1 + dill) + toi(digitNumber(num) + 1))
+            } else {
+                resList.add(tos(del) + sr + "$num")
+                min = num - (num % rhv)
+                resList.add(tos(del - 1 + dill) + "-$min")
+                resList.add(tos(del - 1 + dill) + toi(digitNumber(num) + 1))
+            }
+            newLhv -= min * ten.pow(k).toInt()
+            del += digitNumber(num)
+            dill = 0
+            sr = ""
+            if (num == min) {
+                sr = "0"
+                dill += 1
+            }
+        }
+        val op = lhv % rhv
+        resList.add(tos(del - 1 + dill) + "$op")
+    }
+    for (i in resList) {
+        writer.write(i)
+        writer.newLine()
+    }
+    writer.close()
+}
+
+fun toi(a: Int): String {
+    var s = ""
+    for (i in 0 until a) {
+        s += '-'
+    }
+    return s
+}
+
+fun tos(a: Int): String {
+    var s = ""
+    for (i in 0 until a) {
+        s += ' '
+    }
+    return s
 }
 
