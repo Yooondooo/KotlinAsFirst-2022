@@ -554,12 +554,13 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
-    val resList = mutableListOf<String>(" $lhv | $rhv")
+    val resList = mutableListOf<String>()
     var newLhv = lhv
     val ten = 10.0
     var dill = 0
     var sr = ""
     if (lhv / rhv == 0) {
+        resList.add(" $lhv | $rhv")
         val prop = digitNumber(lhv) + 2
         resList.add("-0" + tos(prop) + "0")
         resList.add("--")
@@ -574,7 +575,9 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         var min = num - (num % rhv)
         var del = lhv / rhv
         val prop = digitNumber(lhv) - digitNumber(min) + 3
-        resList.add("-$min" + tos(prop) + "$del")
+        val poi = digitNumber(min) - digitNumber(num) + 1
+        resList.add(tos(poi) + "$lhv | $rhv")
+        resList.add("-$min" + tos(prop + poi - 1) + "$del")
         newLhv -= min * ten.pow(k).toInt()
         del = digitNumber(min)
         resList.add(toi(del + 1))
