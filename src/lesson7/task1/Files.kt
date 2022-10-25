@@ -560,11 +560,12 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     var dill = 0
     var sr = ""
     if (lhv / rhv == 0) {
-        resList.add(" $lhv | $rhv")
-        val prop = digitNumber(lhv) + 2
+        if (digitNumber(lhv) <= 1) dill = 1
+        resList.add(tos(dill) + "$lhv | $rhv")
+        val prop = digitNumber(lhv) + dill + 1
         resList.add("-0" + tos(prop) + "0")
         resList.add("--")
-        resList.add(" $lhv")
+        resList.add(tos(dill) + "$lhv")
     } else {
         var k = digitNumber(lhv) - digitNumber(rhv)
         var num = newLhv / ten.pow(k).toInt()
