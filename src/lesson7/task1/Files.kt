@@ -590,7 +590,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             dill += 1
         }
         var ddll = digitNumber(min)
-        zero = (checkOnZero != digitNumber(min) + digitNumber(newLhv) && min==num)
+        zero = (checkOnZero != digitNumber(min) + digitNumber(newLhv) && min == num)
         while (newLhv >= rhv) {
             checkOnZero = digitNumber(newLhv)
             k = digitNumber(newLhv) - digitNumber(rhv)
@@ -626,10 +626,16 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
                 sr = "0"
                 dill += 1
             }
-            zero = (checkOnZero != digitNumber(min) + digitNumber(newLhv) && min==num)
+            zero = (checkOnZero != digitNumber(min) + digitNumber(newLhv) && min == num)
             ddll += digitNumber(min)
         }
         val op = lhv % rhv
+        if (lhv % 10 == 0) {
+            resList.add(tos(del) + "00")
+            resList.add(tos(del) + "-0")
+            resList.add(tos(del) + "--")
+            ddll++
+        }
         resList.add(tos(ddll) + "$op")
     }
     for (i in resList) {
