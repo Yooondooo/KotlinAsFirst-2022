@@ -586,6 +586,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         newLhv -= min * ten.pow(k).toInt()
         del = digitNumber(min)
         resList.add(toi(del + 1))
+        val rec = num - min
         if (num == min) {
             sr = "0"
             dill += 1
@@ -594,7 +595,12 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         zero = (checkOnZero != digitNumber(min) + digitNumber(newLhv) && min == num)
         if (digitNumber(lhv) - digitNumber(rhv) == 1) {
             min = newLhv - (newLhv % rhv)
-            resList.add(tos(ddll) + "$newLhv")
+            if (rec != 0)
+                resList.add(tos(ddll) + "$newLhv")
+            else{
+                resList.add(tos(ddll) + "0$newLhv")
+                ddll+=1
+            }
             resList.add(tos(ddll - 1) + "-$min")
             resList.add(tos(ddll - 1) + toi(digitNumber(min) + 1))
             newLhv = 0
