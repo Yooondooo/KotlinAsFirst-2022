@@ -619,10 +619,6 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             checkOnZero = digitNumber(newLhv)
             k = digitNumber(newLhv) - digitNumber(rhv)
             num = newLhv / ten.pow(k).toInt()
-            if (num < rhv) {
-                k -= 1
-                num = newLhv / ten.pow(k).toInt()
-            }
             ddll = del - 1 + dill
             if (zero) {
                 resList.add(tos(del) + "00")
