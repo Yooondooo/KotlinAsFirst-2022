@@ -557,30 +557,6 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     val resList = mutableListOf<String>()
     var newLhv = lhv
-//    var num = "0"
-//    var k = 0
-//    var del = lhv / rhv
-//    while (num.toInt() / rhv == 0) {
-//        num += newLhv[k]
-//        k++
-//    }
-//    num = num.drop(1)
-//    var remainder = (num.toInt() % rhv).toString()
-//    var min = (num.toInt() - remainder.toInt()).toString()
-//    val space = min.length - num.length + 1
-//    resList.add(tos(space) + "$lhv | $rhv")
-//    resList.add("-$min" + tos(digitNumber(lhv) - min.length + 3) + "$del")
-//    resList.add(toi(min.length + 1))
-//    newLhv = newLhv.drop(min.length)
-//    while (newLhv != "0"){
-//        num = remainder + newLhv[0]
-//        remainder = (num.toInt() % rhv).toString()
-//        resList.add(tos(k) + num)
-//        min = (num.toInt() - remainder.toInt()).toString()
-//        resList.add(tos(k) + "-$min")
-//        resList.add(tos(k) + toi(min.length) + 1)
-//        newLhv = remainder + newLhv.drop(min.length)
-//    }
     val ten = 10.0
     var dill = 0
     var sr = ""
@@ -593,6 +569,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         resList.add("--")
         resList.add(tos(dill) + "$lhv")
     } else {
+
         var checkOnZero = digitNumber(newLhv)
         var k = digitNumber(lhv) - digitNumber(rhv)
         var num = newLhv / ten.pow(k).toInt()
@@ -615,6 +592,14 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         }
         var ddll = digitNumber(min)
         zero = (checkOnZero != digitNumber(min) + digitNumber(newLhv) && min == num)
+        if (digitNumber(lhv) - digitNumber(rhv) == 1) {
+            min = newLhv - (newLhv % rhv)
+            resList.add(tos(ddll) + "$newLhv")
+            resList.add(tos(ddll - 1) + "-$min")
+            resList.add(tos(ddll - 1) + toi(digitNumber(min) + 1))
+            newLhv = 0
+            ddll += digitNumber(min) - 1
+        }
         while (newLhv >= rhv) {
             checkOnZero = digitNumber(newLhv)
             k = digitNumber(newLhv) - digitNumber(rhv)
