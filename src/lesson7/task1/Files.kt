@@ -593,7 +593,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         }
         var ddll = digitNumber(min)
         zero = (checkOnZero != digitNumber(min) + digitNumber(newLhv) && min == num)
-        if (digitNumber(lhv) - digitNumber(rhv) == 1) {
+        if (digitNumber(lhv) - digitNumber(rhv) == 1 && lhv % rhv != 0) {
             min = newLhv - (newLhv % rhv)
             if (rec != 0)
                 resList.add(tos(ddll) + "$newLhv")
