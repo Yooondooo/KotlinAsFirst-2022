@@ -450,6 +450,18 @@ Basic, Ruby, Swift.
                    0
              """
         )
+        test(
+            10, 1,
+            """
+                  10 | 1
+                 -1    10
+                 --
+                  00
+                  -0
+                  --
+                   0
+             """
+        )
 
         File("temp.txt").delete()
     }
