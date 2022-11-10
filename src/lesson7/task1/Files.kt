@@ -710,7 +710,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
 //        resList.add(tos(ddll) + "$op")
 //    }
     if (lhv % 10 == 0) {
-        num+='0'
+        num += '0'
         resList.add(tos(dill) + num)
         resList.add(tos(dill) + "-0")
         resList.add(tos(dill) + toi(num.length))
@@ -718,7 +718,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     }
     if (pl == 0) {
         val opl = lhv % rhv
-        resList.add(tos(dill) + "$opl")
+        resList.add(tos(dill - digitNumber(opl) + 1) + "$opl")
     }
     for (i in resList) {
         writer.write(i)
