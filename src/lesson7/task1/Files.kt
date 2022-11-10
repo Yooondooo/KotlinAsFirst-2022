@@ -587,13 +587,14 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         newLhv -= min * ten.pow(k).toInt()
         dill = digitNumber(min)
         while (newLhv >= rhv) {
-            k = digitNumber(newLhv) - digitNumber(rhv)
+            if (num[0] == '0') pl++
+            k = digitNumber(newLhv) - 2 + pl
+
             num += ((newLhv / ten.pow(k).toInt()) % 10).toString()
             min = num.toInt() - (num.toInt() % rhv)
             if (num.length > 1)
                 if (num[0] == '0' && num[1] == '0')
                     num = num.drop(1)
-            if (num[0] == '0') pl++
             while (min < rhv) {
                 resList.add(tos(dill) + num)
                 resList.add(tos(dill) + "-0")

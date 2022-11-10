@@ -462,7 +462,18 @@ Basic, Ruby, Swift.
                    0
              """
         )
-
+        test(
+            32, 2,
+            """
+                 32 | 2
+                -2    16
+                --
+                 12
+                -12
+                ---
+                  0
+             """
+        )
         File("temp.txt").delete()
     }
 }
