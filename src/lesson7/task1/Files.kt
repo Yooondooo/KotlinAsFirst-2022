@@ -557,10 +557,10 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     val resList = mutableListOf<String>()
     var newLhv = lhv
-    val ten = 10.0
     var dill = 0
-    var sr = ""
-    var zero = false
+    val ten = 10.0
+    var num = ""
+    var pl = 0
     if (lhv / rhv == 0) {
         if (digitNumber(lhv) <= 1) dill = 1
         resList.add(tos(dill) + "$lhv | $rhv")
@@ -568,90 +568,149 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         resList.add("-0" + tos(prop) + "0")
         resList.add("--")
         resList.add(tos(dill) + "$lhv")
+        pl++
     } else {
-
-        var checkOnZero = digitNumber(newLhv)
-        var k = digitNumber(lhv) - digitNumber(rhv)
-        var num = newLhv / ten.pow(k).toInt()
-        if (num < rhv) {
+        var k = digitNumber(newLhv) - digitNumber(rhv)
+        num = (newLhv / ten.pow(k).toInt()).toString()
+        if (num.toInt() < rhv) {
             k -= 1
-            num = newLhv / ten.pow(k).toInt()
+            num = (newLhv / ten.pow(k).toInt()).toString()
         }
-        var min = num - (num % rhv)
-        var del = lhv / rhv
+        dill = lhv / rhv
+        var min = num.toInt() - (num.toInt() % rhv)
         val prop = digitNumber(lhv) - digitNumber(min) + 3
-        val poi = digitNumber(min) - digitNumber(num) + 1
+        val poi = digitNumber(min) - digitNumber(num.toInt()) + 1
         resList.add(tos(poi) + "$lhv | $rhv")
-        resList.add("-$min" + tos(prop + poi - 1) + "$del")
+        resList.add("-$min" + tos(prop + poi - 1) + "$dill")
+        resList.add(toi(digitNumber(min) + 1))
+        num = (num.toInt() % rhv).toString()
         newLhv -= min * ten.pow(k).toInt()
-        del = digitNumber(min)
-        resList.add(toi(del + 1))
-        val rec = num - min
-        if (num == min) {
-            sr = "0"
-            dill += 1
-        }
-        var ddll = digitNumber(min)
-        zero = (checkOnZero != digitNumber(min) + digitNumber(newLhv) && min == num)
-        if (digitNumber(lhv) - digitNumber(rhv) == 1 && lhv % rhv != 0) {
-            min = newLhv - (newLhv % rhv)
-            if (rec != 0)
-                resList.add(tos(ddll) + "$newLhv")
-            else{
-                resList.add(tos(ddll) + "0$newLhv")
-                ddll+=1
-            }
-            resList.add(tos(ddll - 1) + "-$min")
-            resList.add(tos(ddll - 1) + toi(digitNumber(min) + 1))
-            newLhv = 0
-            ddll += digitNumber(min) - 1
-        }
+        dill = digitNumber(min)
         while (newLhv >= rhv) {
-            checkOnZero = digitNumber(newLhv)
             k = digitNumber(newLhv) - digitNumber(rhv)
-            num = newLhv / ten.pow(k).toInt()
-            ddll = del - 1 + dill
-            if (zero) {
-                resList.add(tos(del) + "00")
-                resList.add(tos(del) + "-0")
-                resList.add(tos(del) + "--")
-                del++
-                ddll++
+            num += ((newLhv / ten.pow(k).toInt()) % 10).toString()
+            min = num.toInt() - (num.toInt() % rhv)
+            if (num.length > 1)
+                if (num[0] == '0' && num[1] == '0')
+                    num = num.drop(1)
+            if(num[0]=='0') pl++
+            while (min < rhv) {
+                resList.add(tos(dill) + num)
+                resList.add(tos(dill) + "-0")
+                k -= 1
+                resList.add(tos(dill) + toi(num.length))
+                num += ((newLhv / ten.pow(k).toInt()) % 10).toString()
+                min = num.toInt() - (num.toInt() % rhv)
             }
-            if (num < rhv) {
-                resList.add(tos(del) + sr + "$num")
-                resList.add(tos(del + dill) + "-0")
-                resList.add(tos(del) + toi(digitNumber(num)))
-                num = newLhv / ten.pow(k - 1).toInt()
-                resList.add(tos(del) + sr + "$num")
-                min = num - (num % rhv)
-                resList.add(tos(ddll) + "-$min")
-                resList.add(tos(ddll) + toi(digitNumber(num) + 1))
-            } else {
-                resList.add(tos(del) + sr + "$num")
-                min = num - (num % rhv)
-                resList.add(tos(ddll) + "-$min")
-                resList.add(tos(ddll) + toi(digitNumber(num) + 1))
-            }
+            resList.add(tos(dill) + num)
+            resList.add(tos(dill - 1 + pl) + "-$min")
+            resList.add(tos(dill - 1 + pl) + toi(num.length + 1 - pl))
             newLhv -= min * ten.pow(k).toInt()
-            del += digitNumber(num)
-            dill = 0
-            sr = ""
-            if (num == min) {
-                sr = "0"
-                dill += 1
-            }
-            zero = (checkOnZero != digitNumber(min) + digitNumber(newLhv) && min == num)
-            ddll += digitNumber(min)
+            dill += num.length - 1
+            num = (num.toInt() % rhv).toString()
+            if (num[0] == '0')
+                num = "0$num"
+            pl = 0
         }
-        val op = lhv % rhv
-        if (lhv % 10 == 0) {
-            resList.add(tos(del) + "00")
-            resList.add(tos(del) + "-0")
-            resList.add(tos(del) + "--")
-            ddll++
-        }
-        resList.add(tos(ddll) + "$op")
+    }
+//    val ten = 10.0
+//    var sr = ""
+//    var zero = false
+//    if (lhv / rhv == 0) {
+//        if (digitNumber(lhv) <= 1) dill = 1
+//        resList.add(tos(dill) + "$lhv | $rhv")
+//        val prop = digitNumber(lhv) + dill + 1
+//        resList.add("-0" + tos(prop) + "0")
+//        resList.add("--")
+//        resList.add(tos(dill) + "$lhv")
+//    } else {
+//
+//        var checkOnZero = digitNumber(newLhv)
+//        var k = digitNumber(lhv) - digitNumber(rhv)
+//        var num = newLhv / ten.pow(k).toInt()
+//        if (num < rhv) {
+//            k -= 1
+//            num = newLhv / ten.pow(k).toInt()
+//        }
+//        var min = num - (num % rhv)
+//        var del = lhv / rhv
+//        val prop = digitNumber(lhv) - digitNumber(min) + 3
+//        val poi = digitNumber(min) - digitNumber(num) + 1
+//        resList.add(tos(poi) + "$lhv | $rhv")
+//        resList.add("-$min" + tos(prop + poi - 1) + "$del")
+//        newLhv -= min * ten.pow(k).toInt()
+//        del = digitNumber(min)
+//        resList.add(toi(del + 1))
+//        val rec = num - min
+//        if (num == min) {
+//            sr = "0"
+//            dill += 1
+//        }
+//        var ddll = digitNumber(min)
+//        zero = (checkOnZero != digitNumber(min) + digitNumber(newLhv) && min == num)
+//        if (digitNumber(lhv) - digitNumber(rhv) == 1 && lhv % rhv != 0) {
+//            min = newLhv - (newLhv % rhv)
+//            if (rec != 0)
+//                resList.add(tos(ddll) + "$newLhv")
+//            else{
+//                resList.add(tos(ddll) + "0$newLhv")
+//                ddll+=1
+//            }
+//            resList.add(tos(ddll - 1) + "-$min")
+//            resList.add(tos(ddll - 1) + toi(digitNumber(min) + 1))
+//            newLhv = 0
+//            ddll += digitNumber(min) - 1
+//        }
+//        while (newLhv >= rhv) {
+//            checkOnZero = digitNumber(newLhv)
+//            k = digitNumber(newLhv) - digitNumber(rhv)
+//            num = newLhv / ten.pow(k).toInt()
+//            ddll = del - 1 + dill
+//            if (zero) {
+//                resList.add(tos(del) + "00")
+//                resList.add(tos(del) + "-0")
+//                resList.add(tos(del) + "--")
+//                del++
+//                ddll++
+//            }
+//            if (num < rhv) {
+//                resList.add(tos(del) + sr + "$num")
+//                resList.add(tos(del + dill) + "-0")
+//                resList.add(tos(del) + toi(digitNumber(num)))
+//                num = newLhv / ten.pow(k - 1).toInt()
+//                resList.add(tos(del) + sr + "$num")
+//                min = num - (num % rhv)
+//                resList.add(tos(ddll) + "-$min")
+//                resList.add(tos(ddll) + toi(digitNumber(num) + 1))
+//            } else {
+//                resList.add(tos(del) + sr + "$num")
+//                min = num - (num % rhv)
+//                resList.add(tos(ddll) + "-$min")
+//                resList.add(tos(ddll) + toi(digitNumber(num) + 1))
+//            }
+//            newLhv -= min * ten.pow(k).toInt()
+//            del += digitNumber(num)
+//            dill = 0
+//            sr = ""
+//            if (num == min) {
+//                sr = "0"
+//                dill += 1
+//            }
+//            zero = (checkOnZero != digitNumber(min) + digitNumber(newLhv) && min == num)
+//            ddll += digitNumber(min)
+//        }
+//        val op = lhv % rhv
+//        if (lhv % 10 == 0) {
+//            resList.add(tos(del) + "00")
+//            resList.add(tos(del) + "-0")
+//            resList.add(tos(del) + "--")
+//            ddll++
+//        }
+//        resList.add(tos(ddll) + "$op")
+//    }
+    if (pl == 0) {
+        val opl = lhv % rhv
+        resList.add(tos(dill) + "$opl")
     }
     for (i in resList) {
         writer.write(i)
