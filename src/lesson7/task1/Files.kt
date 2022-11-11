@@ -561,6 +561,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val ten = 10.0
     var num = ""
     var pl = 0
+    var conInt = 0
     var cons = newLhv.toString()
     if (lhv / rhv == 0) {
         if (digitNumber(lhv) <= 1) dill = 1
@@ -588,17 +589,17 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         dill = digitNumber(min)
         if (digitNumber(min) < digitNumber(newLhv)) {
             if (num == "0" && cons[digitNumber(min)] == '0') {
-                num += "0"
-                resList.add(tos(dill) + num)
+                resList.add(tos(dill) + "00")
                 resList.add(tos(dill) + "-0")
                 resList.add(tos(dill) + toi(2))
                 dill++
-                num = "0"
+                conInt = 1
             }
         }
         newLhv -= min * ten.pow(k).toInt()
 
         while (newLhv >= rhv) {
+            conInt = 0
             cons = newLhv.toString()
             if (num[0] == '0') pl++
             k = digitNumber(newLhv) - 2 + pl
@@ -623,12 +624,11 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             num = (num.toInt() % rhv).toString()
             if (digitNumber(min) < digitNumber(newLhv)) {
                 if (num == "0" && cons[digitNumber(min)] == '0') {
-                    num += "0"
-                    resList.add(tos(dill) + num)
+                    resList.add(tos(dill) + "00")
                     resList.add(tos(dill) + "-0")
                     resList.add(tos(dill) + toi(2))
                     dill++
-                    num = "0"
+                    conInt = 1
                 }
             }
             if (num[0] == '0')
@@ -636,13 +636,16 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             pl = 0
         }
     }
-//    if (lhv % 10 == 0) {
-//        num += '0'
-//        resList.add(tos(dill) + num)
-//        resList.add(tos(dill) + "-0")
-//        resList.add(tos(dill) + toi(num.length))
-//        dill++
-//    }
+    if (num.length > 1)
+        if (num[0] == '0' && num[1] == '0')
+            num = num.drop(1)
+    if (lhv % 10 == 0 && conInt != 1) {
+        num += '0'
+        resList.add(tos(dill) + num)
+        resList.add(tos(dill) + "-0")
+        resList.add(tos(dill) + toi(num.length))
+        dill++
+    }
     if (pl == 0) {
         val opl = lhv % rhv
         resList.add(tos(dill - digitNumber(opl) + 1) + "$opl")
