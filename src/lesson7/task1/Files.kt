@@ -586,13 +586,15 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         resList.add(toi(digitNumber(min) + 1))
         num = (num.toInt() % rhv).toString()
         dill = digitNumber(min)
-        if (num == "0" && cons[digitNumber(min)] == '0') {
-            num += "0"
-            resList.add(tos(dill) + num)
-            resList.add(tos(dill) + "-0")
-            resList.add(tos(dill) + toi(2))
-            dill++
-            num = "0"
+        if (digitNumber(min) < digitNumber(newLhv)) {
+            if (num == "0" && cons[digitNumber(min)] == '0') {
+                num += "0"
+                resList.add(tos(dill) + num)
+                resList.add(tos(dill) + "-0")
+                resList.add(tos(dill) + toi(2))
+                dill++
+                num = "0"
+            }
         }
         newLhv -= min * ten.pow(k).toInt()
 

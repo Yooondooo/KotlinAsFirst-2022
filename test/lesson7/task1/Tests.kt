@@ -507,6 +507,16 @@ Basic, Ruby, Swift.
                         0
              """
         )
+        test(
+            1,
+            1,
+            """
+              1 | 1
+             -1   1
+             --
+              0
+             """
+        )
         File("temp.txt").delete()
     }
 }
