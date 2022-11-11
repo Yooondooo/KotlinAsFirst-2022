@@ -67,16 +67,17 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  */
 fun deleteMarked(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
-    for (line in File(inputName).readLines()) {
-        if (line == "")
-            writer.newLine()
-        else
-            if (line.first() != '_') {
-                writer.write(line)
+    writer.use {
+        for (line in File(inputName).readLines()) {
+            if (line == "")
                 writer.newLine()
-            }
+            else
+                if (line.first() != '_') {
+                    writer.write(line)
+                    writer.newLine()
+                }
+        }
     }
-    writer.close()
 }
 
 /**
@@ -129,16 +130,17 @@ fun sibilants(inputName: String, outputName: String) {
  */
 fun centerFile(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
-    var maxx = 0
-    for (i in File(inputName).readLines()) {
-        maxx = max(maxx, i.trim().length)
+    writer.use {
+        var maxx = 0
+        for (i in File(inputName).readLines()) {
+            maxx = max(maxx, i.trim().length)
+        }
+        for (i in File(inputName).readLines()) {
+            for (j in 0 until (maxx - i.trim().length) / 2) writer.write(" ")
+            writer.write(i.trim())
+            writer.newLine()
+        }
     }
-    for (i in File(inputName).readLines()) {
-        for (j in 0 until (maxx - i.trim().length) / 2) writer.write(" ")
-        writer.write(i.trim())
-        writer.newLine()
-    }
-    writer.close()
 }
 
 /**
@@ -232,31 +234,32 @@ fun top20Words(inputName: String): Map<String, Int> = TODO()
 const val multiAlphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ"
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
     val write = File(outputName).bufferedWriter()
-    val dict = mutableMapOf<Char, String>()
-    for ((key, value) in dictionary) {
-        dict[key.toUpperCase()] = value
-    }
-    if (dict[' '] == null)
-        dict[' '] = " "
-    for (line in File(inputName).readLines()) {
-        val l = line
-        if (l != "") {
-            var st = ""
-            for (i in 0..line.length - 1) {
-                val p = dict[line[i].toUpperCase()]
-                if (p != null)
-                    if (line[i] in multiAlphabet)
-                        st += (p.toLowerCase()).capitalize()
-                    else
-                        st += p.toLowerCase()
-                else
-                    st += line[i]
-            }
-            write.write(st)
+    write.use {
+        val dict = mutableMapOf<Char, String>()
+        for ((key, value) in dictionary) {
+            dict[key.toUpperCase()] = value
         }
-        write.newLine()
+        if (dict[' '] == null)
+            dict[' '] = " "
+        for (line in File(inputName).readLines()) {
+            val l = line
+            if (l != "") {
+                var st = ""
+                for (i in 0..line.length - 1) {
+                    val p = dict[line[i].toUpperCase()]
+                    if (p != null)
+                        if (line[i] in multiAlphabet)
+                            st += (p.toLowerCase()).capitalize()
+                        else
+                            st += p.toLowerCase()
+                    else
+                        st += line[i]
+                }
+                write.write(st)
+            }
+            write.newLine()
+        }
     }
-    write.close()
 }
 
 /**

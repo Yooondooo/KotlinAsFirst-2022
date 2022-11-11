@@ -170,26 +170,19 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
-//    if (expression == "") throw IllegalArgumentException()
-//    val res = expression.split(" ")
-//    if (res.size == 0 || res[0].any { !it.isDigit() }) throw IllegalArgumentException()
-//    if (expression[expression.length - 1] == ' ') throw IllegalArgumentException()
-//    else if (res.size == 1) return res[0].toInt()
-//    for (i in 0..res.size - 2 step 2) {
-//        if (res[i].any { !it.isDigit() }) throw IllegalArgumentException()
-//        if (res[i + 1].any { it.isDigit() }) throw IllegalArgumentException()
-//    }
-//    if (res.size % 2 != 0) {
-//        if (res[res.size - 1].any { !it.isDigit() }) throw IllegalArgumentException()
-//    }
-//    var sum = res[0].toInt()
-//    for (i in 1..res.size - 2 step 2) {
-//        if (res[i] == "+") sum += res[i + 1].toInt()
-//        else sum -= res[i + 1].toInt()
-//    }
-//    return sum
-//}
+fun plusMinus(expression: String): Int {
+    var sum = 0
+    if (expression.matches(Regex("""[0-9]*( [-+] [0-9]*)*"""))) {
+        val res = expression.split(" ")
+        sum = res[0].toInt()
+        for (i in 1..res.size - 2 step 2) {
+            if (res[i] == "+") sum += res[i + 1].toInt()
+            else sum -= res[i + 1].toInt()
+        }
+    } else
+        throw IllegalArgumentException()
+    return sum
+}
 
 /**
  * Сложная (6 баллов)
