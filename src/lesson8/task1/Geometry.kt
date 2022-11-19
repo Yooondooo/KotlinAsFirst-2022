@@ -149,12 +149,12 @@ class Line private constructor(val b: Double, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-    fun crossPoint(other: Line): Point {
-        val y = (sin(other.angle) * b - sin(angle) * other.b) /
-                (sin(other.angle) * cos(angle) - sin(angle) * cos(other.angle))
-        val x = (y * cos(angle) - b) / sin(angle)
-        return Point(x, y)
-    }
+    fun crossPoint(other: Line): Point = TODO()
+//        val y = (sin(other.angle) * b - sin(angle) * other.b) /
+//                (sin(other.angle) * cos(angle) - sin(angle) * cos(other.angle))
+//        val x = (y * cos(angle) - b) / sin(angle)
+//        return Point(x, y)
+//    }
 
     override fun equals(other: Any?) = other is Line && angle == other.angle && b == other.b
     override fun hashCode(): Int {
@@ -171,35 +171,35 @@ class Line private constructor(val b: Double, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line {
-    val a = s.begin
-    val b = s.end
-    val tg = abs(a.y - b.y) / abs(a.x - b.x)
-    val ang = atan(tg)
-    return Line(a, ang)
-}
+fun lineBySegment(s: Segment): Line = TODO()
+//    val a = s.begin
+//    val b = s.end
+//    val tg = abs(a.y - b.y) / abs(a.x - b.x)
+//    val ang = atan(tg)
+//    return Line(a, ang)
+//}
 
 /**
  * Средняя (3 балла)
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line {
-    val tg = abs(a.y - b.y) / abs(a.x - b.x)
-    val ang = atan(tg)
-    return Line(a, ang)
-}
+fun lineByPoints(a: Point, b: Point): Line = TODO()
+//    val tg = abs(a.y - b.y) / abs(a.x - b.x)
+//    val ang = atan(tg)
+//    return Line(a, ang)
+//}
 
 /**
  * Сложная (5 баллов)
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line {
-    val sin = abs(a.y - b.y) / a.distance(b)
-    val mid = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
-    return Line(mid, PI / 2 - asin(sin))
-}
+fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+//    val sin = abs(a.y - b.y) / a.distance(b)
+//    val mid = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
+//    return Line(mid, PI / 2 - asin(sin))
+//}
 
 /**
  * Средняя (3 балла)
@@ -224,23 +224,23 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
-    val l1 = bisectorByPoints(a, b)
-    val l2 = bisectorByPoints(b, c)
-    val l3 = bisectorByPoints(a, c)
-    val point1 = l1.crossPoint(l2)
-    val point2 = l2.crossPoint(l3)
-    val point3 = l3.crossPoint(l1)
-    var point = Point(0.0, 0.0)
-    if (point1 == point2 || point1 == point3) point = point1
-    else {
-        if (point2 == point3) point = point2
-    }
-    val r1 = point.distance(a)
-    val r2 = point.distance(b)
-    val r3 = point.distance(c)
-    return Circle(point, minOf(r1, r2, r3))
-}
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
+//    val l1 = bisectorByPoints(a, b)
+//    val l2 = bisectorByPoints(b, c)
+//    val l3 = bisectorByPoints(a, c)
+//    val point1 = l1.crossPoint(l2)
+//    val point2 = l2.crossPoint(l3)
+//    val point3 = l3.crossPoint(l1)
+//    var point = Point(0.0, 0.0)
+//    if (point1 == point2 || point1 == point3) point = point1
+//    else {
+//        if (point2 == point3) point = point2
+//    }
+//    val r1 = point.distance(a)
+//    val r2 = point.distance(b)
+//    val r3 = point.distance(c)
+//    return Circle(point, minOf(r1, r2, r3))
+//}
 
 /**
  * Очень сложная (10 баллов)
