@@ -2,6 +2,7 @@
 
 package lesson9.task2
 
+import lesson9.task1.Cell
 import lesson9.task1.Matrix
 import lesson9.task1.createMatrix
 
@@ -119,7 +120,24 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
  * 1 2 3
  * 3 1 2
  */
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    val setWidth = mutableSetOf<Int>()
+    val setHeight = mutableSetOf<Int>()
+    if (matrix.width != matrix.height) return false
+    for (i in 0 until matrix.height) {
+        for (j in 0 until matrix.height) {
+            if (matrix[Cell(i, j)] > matrix.height || matrix[Cell(i, j)] <= 0
+                || matrix[Cell(j, i)] > matrix.height || matrix[Cell(j, i)] <= 0
+            ) return false
+            setWidth.add(matrix[Cell(i,j)])
+            setHeight.add(matrix[Cell(j, i)])
+        }
+        if (setHeight.size != matrix.height || setWidth.size != matrix.height) return false
+        setWidth.clear()
+        setHeight.clear()
+    }
+    return true
+}
 
 /**
  * Средняя (3 балла)

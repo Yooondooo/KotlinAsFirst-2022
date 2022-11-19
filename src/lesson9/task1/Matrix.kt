@@ -2,6 +2,8 @@
 
 package lesson9.task1
 
+import java.lang.IndexOutOfBoundsException
+
 // Урок 9: проектирование классов
 // Максимальное количество баллов = 40 (без очень трудных задач = 15)
 
@@ -44,32 +46,73 @@ interface Matrix<E> {
  * height = высота, width = ширина, e = чем заполнить элементы.
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
-fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = TODO()
+//fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = MatrixImpl<E>(height, width, e)
+fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
+    if (height <= 0 && width <= 0) throw IllegalArgumentException()
+    val res = MatrixImpl<E>(height, width)
+    for (i in 0 until height) {
+        for (j in 0 until width) {
+            res[Cell(height, width)] = e
+        }
+    }
+    return res
+}
 
 /**
  * Средняя сложность (считается двумя задачами в 3 балла каждая)
  *
  * Реализация интерфейса "матрица"
  */
-class MatrixImpl<E> : Matrix<E> {
-    override val height: Int = TODO()
+class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<E> {
+    //    override val height: Int = TODO()
+//
+//    override val width: Int = TODO()
+    private val map = mutableMapOf<Cell, E>()
 
-    override val width: Int = TODO()
+    override fun get(row: Int, column: Int): E {
+        val cell = Cell(row, column)
+        val m = map[cell]
+        if (m != null)
+            return m
+        throw IndexOutOfBoundsException("$cell")
+    }
 
-    override fun get(row: Int, column: Int): E = TODO()
-
-    override fun get(cell: Cell): E = TODO()
+    override fun get(cell: Cell): E {
+        val m = map[cell]
+        if (m != null)
+            return m
+        throw IndexOutOfBoundsException("$cell")
+    }
 
     override fun set(row: Int, column: Int, value: E) {
-        TODO()
+        map[Cell(row, column)] = value
     }
 
     override fun set(cell: Cell, value: E) {
-        TODO()
+        map[cell] = value
     }
 
-    override fun equals(other: Any?) = TODO()
+    override fun equals(other: Any?) = other is MatrixImpl<*> &&
+            height == other.height &&
+            width == other.width
 
-    override fun toString(): String = TODO()
+    override fun hashCode(): Int {
+        var result = height
+        result = 31 * result + width
+        result = 31 * result + map.hashCode()
+        return result
+    }
+
+    override fun toString(): String {
+        var str = ""
+        for (i in 0 until height) {
+            for (j in 0 until width) {
+                str += map.get(Cell(i,j)).toString() + " "
+            }
+            str.trim()
+            str += "\n"
+        }
+        return str
+    }
 }
 
