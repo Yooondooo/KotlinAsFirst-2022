@@ -336,60 +336,59 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    TODO()
-//    val writer = File(outputName).bufferedWriter()
-//    val ifile = File(inputName).readLines()
-//    writer.write("<html>\n<body>\n<p>")
-//    writer.newLine()
-//    var italics = true
-//    var bold = true
-//    var strikethrough = true
-//    for (i in ifile) {
-//        if (i == "" && i != ifile.last()) writer.write("</p>\n<p>\n")
-//        else {
-//            var del = false
-//            for (j in 0..i.length - 2) {
-//                when {
-//                    del -> {
-//                        del = !del
-//                        continue
-//                    }
-//
-//                    (i[j] == '*' && i[j + 1] == '*') -> {
-//                        if (bold) writer.write("<b>")
-//                        else writer.write("</b>")
-//                        bold = !bold
-//                        del = true
-//                        continue
-//                    }
-//
-//                    (i[j] == '~' && i[j + 1] == '~') -> {
-//                        if (strikethrough) writer.write("<s>")
-//                        else writer.write("</s>")
-//                        strikethrough = !strikethrough
-//                        del = true
-//                        continue
-//                    }
-//
-//                    (i[j] == '*') -> {
-//                        if (italics) writer.write("<i>")
-//                        else writer.write("</i>")
-//                        italics = !italics
-//                        continue
-//                    }
-//
-//                    else -> writer.write(i[j].toString())
-//                }
-//            }
-//            if (i[i.length - 1] == '*') {
-//                if (italics) writer.write("<i>")
-//                else writer.write("</i>")
-//                italics = !italics
-//            } else writer.write(i[i.length - 1].toString())
-//        }
-//    }
-//    writer.write("</p>\n</body>\n</html>")
-//    writer.close()
+    val writer = File(outputName).bufferedWriter()
+    val ifile = File(inputName).readLines()
+    writer.write("<html>\n<body>\n<p>")
+    writer.newLine()
+    var italics = true
+    var bold = true
+    var strikethrough = true
+    for (i in ifile) {
+        if (i == "" && i != ifile.last()) writer.write("</p>\n<p>\n")
+        else {
+            var del = false
+            for (j in 0..i.length - 2) {
+                when {
+                    del -> {
+                        del = !del
+                        continue
+                    }
+
+                    (i[j] == '*' && i[j + 1] == '*') -> {
+                        if (bold) writer.write("<b>")
+                        else writer.write("</b>")
+                        bold = !bold
+                        del = true
+                        continue
+                    }
+
+                    (i[j] == '~' && i[j + 1] == '~') -> {
+                        if (strikethrough) writer.write("<s>")
+                        else writer.write("</s>")
+                        strikethrough = !strikethrough
+                        del = true
+                        continue
+                    }
+
+                    (i[j] == '*') -> {
+                        if (italics) writer.write("<i>")
+                        else writer.write("</i>")
+                        italics = !italics
+                        continue
+                    }
+
+                    else -> writer.write(i[j].toString())
+                }
+            }
+            if (i[i.length - 1] == '*') {
+                if (italics) writer.write("<i>")
+                else writer.write("</i>")
+                italics = !italics
+            } else writer.write(i[i.length - 1].toString())
+        }
+    }
+    writer.write("</p>\n</body>\n</html>")
+    writer.close()
 }
 
 
