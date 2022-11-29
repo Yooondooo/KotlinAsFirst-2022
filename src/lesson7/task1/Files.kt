@@ -564,6 +564,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     var num = ""
     var pl = 0
     var conInt = 0
+    var nuk = true
     var cons = newLhv.toString()
     if (lhv / rhv == 0) {
         if (digitNumber(lhv) <= 1) dill = 1
@@ -600,6 +601,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         }
         newLhv -= min * ten.pow(k).toInt()
         while (newLhv >= rhv) {
+            nuk = true
             conInt = 0
             cons = newLhv.toString()
             if (num[0] == '0') pl++
@@ -637,12 +639,14 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             if (num[0] == '0')
                 num = "0$num"
             pl = 0
+            if (min % 10 == 0)
+                nuk = !nuk
         }
     }
     if (num.length > 1)
         if (num[0] == '0' && num[1] == '0')
             num = num.drop(1)
-    if (lhv % 10 == 0 && conInt != 1) {
+    if (lhv % 10 == 0 && conInt != 1 && nuk) {
         num += '0'
         resList.add(tos(dill) + num)
         resList.add(tos(dill) + "-0")
