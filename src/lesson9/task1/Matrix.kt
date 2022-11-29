@@ -73,14 +73,14 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
         val m = map[cell]
         if (m != null)
             return m
-        throw IndexOutOfBoundsException("$cell")
+        throw IllegalArgumentException()
     }
 
     override fun get(cell: Cell): E {
         val m = map[cell]
         if (m != null)
             return m
-        throw IndexOutOfBoundsException("$cell")
+        throw IllegalArgumentException()
     }
 
     override fun set(row: Int, column: Int, value: E) {
