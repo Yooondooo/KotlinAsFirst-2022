@@ -588,7 +588,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         resList.add("-$min" + tos(prop + poi - 1) + "$dill")
         resList.add(toi(digitNumber(min) + 1))
         num = (num.toInt() % rhv).toString()
-        dill = digitNumber(min)
+        dill = digitNumber(min) - num.length + 1
         if (digitNumber(min) < digitNumber(newLhv)) {
             if (num == "0" && cons[digitNumber(min)] == '0') {
                 resList.add(tos(dill) + "00")
@@ -605,6 +605,8 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             if (num[0] == '0') pl++
             k = digitNumber(newLhv) - 2 + pl
             num += ((newLhv / ten.pow(k).toInt()) % 10).toString()
+            if (digitNumber(num.toInt()) == digitNumber(cons.toInt()) && num[0] != '0')
+                num = cons
             min = num.toInt() - (num.toInt() % rhv)
             if (num.length > 1)
                 if (num[0] == '0' && num[1] == '0')
@@ -621,8 +623,8 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             resList.add(tos(dill - 1 + pl) + "-$min")
             resList.add(tos(dill - 1 + pl) + toi(num.length + 1 - pl))
             newLhv -= min * ten.pow(k).toInt()
-            dill += num.length - 1
             num = (num.toInt() % rhv).toString()
+            dill += digitNumber(min) - num.length + pl
             if (digitNumber(min) < digitNumber(newLhv)) {
                 if (num == "0" && cons[digitNumber(min)] == '0') {
                     resList.add(tos(dill) + "00")
@@ -649,15 +651,15 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     }
     val opl = lhv % rhv
     if (num != "")
-        if (num.toInt() in 1 until opl){
-            resList.add(tos(dill - num.length + 1) + "$opl")
-            resList.add(tos(dill - num.length + 1) + "-0")
-            resList.add(tos(dill - num.length + 1) + toi(digitNumber(opl)))
-            resList.add(tos(dill - num.length + 1) + "$opl")
+        if (num.toInt() in 1 until opl && newLhv != 0) {
+            resList.add(tos(dill) + "$opl")
+            resList.add(tos(dill) + "-0")
+            resList.add(tos(dill) + toi(digitNumber(opl)))
+            resList.add(tos(dill) + "$opl")
             pl = 1
         }
     if (pl == 0)
-        resList.add(tos(dill - digitNumber(opl) + 1) + "$opl")
+        resList.add(tos(dill) + "$opl")
     for (i in resList) {
         writer.write(i)
         writer.newLine()
