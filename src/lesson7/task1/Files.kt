@@ -345,10 +345,13 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     var i = 0
     var b = 0
     var s = 0
+    var yr = true
     for (l in ifile) {
-        if (l == "") {
+        if (l == "" && yr) {
             writer.write("</p><p>")
+            yr = false
         } else {
+            yr = true
             var del = false
             for (j in 0..l.length - 2) {
                 when {
@@ -375,8 +378,10 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
             }
             if (l[l.length - 1] == '*') {
                 writer.write(italics[i])
-                i = (i + 1) % 2
             } else writer.write(l[l.length - 1].toString())
+            i = 0
+            b = 0
+            s = 0
         }
     }
     writer.write("</p></body></html>")
