@@ -338,56 +338,48 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     val ifile = File(inputName).readLines()
-    writer.write("<html>\n<body>\n<p>")
-    writer.newLine()
-    var italics = true
-    var bold = true
-    var strikethrough = true
-    for (i in ifile) {
-        if (i == "" && i != ifile.last()) writer.write("</p>\n<p>\n")
-        else {
+    writer.write("<html><body><p>")
+    val italics = listOf<String>("<i>", "</i>")
+    val bold = listOf<String>("<b>", "</b>")
+    val strikethrough = listOf<String>("<s>", "</s>")
+    var i = 0
+    var b = 0
+    var s = 0
+    for (l in ifile) {
+        if (l == "") {
+            writer.write("</p><p>")
+        } else {
             var del = false
-            for (j in 0..i.length - 2) {
+            for (j in 0..l.length - 2) {
                 when {
-                    del -> {
-                        del = !del
-                        continue
-                    }
-
-                    (i[j] == '*' && i[j + 1] == '*') -> {
-                        if (bold) writer.write("<b>")
-                        else writer.write("</b>")
-                        bold = !bold
+                    del -> del = false
+                    l[j] == '~' && l[j + 1] == '~' -> {
                         del = true
-                        continue
+                        writer.write(strikethrough[s])
+                        s = (s + 1) % 2
                     }
 
-                    (i[j] == '~' && i[j + 1] == '~') -> {
-                        if (strikethrough) writer.write("<s>")
-                        else writer.write("</s>")
-                        strikethrough = !strikethrough
+                    l[j] == '*' && l[j + 1] == '*' -> {
                         del = true
-                        continue
+                        writer.write(bold[b])
+                        b = (b + 1) % 2
                     }
 
-                    (i[j] == '*') -> {
-                        if (italics) writer.write("<i>")
-                        else writer.write("</i>")
-                        italics = !italics
-                        continue
+                    l[j] == '*' -> {
+                        writer.write(italics[i])
+                        i = (i + 1) % 2
                     }
 
-                    else -> writer.write(i[j].toString())
+                    else -> writer.write(l[j].toString())
                 }
             }
-            if (i[i.length - 1] == '*') {
-                if (italics) writer.write("<i>")
-                else writer.write("</i>")
-                italics = !italics
-            } else writer.write(i[i.length - 1].toString())
+            if (l[l.length - 1] == '*') {
+                writer.write(italics[i])
+                i = (i + 1) % 2
+            } else writer.write(l[l.length - 1].toString())
         }
     }
-    writer.write("</p>\n</body>\n</html>")
+    writer.write("</p></body></html>")
     writer.close()
 }
 
@@ -490,6 +482,30 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlLists(inputName: String, outputName: String) {
+//    var spaces = 0
+//    val res = File(outputName).bufferedWriter()
+//    val li = listOf<String>("<li>", "/li")
+//    val ol = listOf<String>("<ol>", "/ol")
+//    val ul = listOf<String>("<ul>", "/ul")
+//    var cli = 0
+//    var col = 0
+//    var cul = 0
+//    res.write("<html><body><p><ul>")
+//    for (line in File(inputName).readLines()) {
+//        when {
+//            line.first() == '*' -> {
+//                res.write(ol[col])
+//                res.write(line)
+//                col = (col + 1) % 2
+//            }
+//
+//            line.first().isDigit() -> {
+//                res.write(ul[cul])
+//                res.write(line)
+//                cul = (cul + 1) % 2
+//            }
+//        }
+//    }
     TODO()
 }
 

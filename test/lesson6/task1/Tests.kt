@@ -152,4 +152,14 @@ class Tests {
         assertThrows(IllegalArgumentException::class.java) { computeDeviceCells(10, "+>+>[+>", 3) }
         assertThrows(IllegalStateException::class.java) { computeDeviceCells(20, ">>>>>>>>>>>>>", 12) }
     }
+
+    @Test
+    fun movePets() {
+        assertEquals(
+            listOf("Fast", "Lux" ), movePets(
+                listOf("Super: кот - 100000;","Fast: кот - 25000; собака - 30000; шиншилла - 5000;",
+                    "Lux: кот - 1000000; собака - 1000000; крыса - 1000000; корова - 1000000; бегемот - 10000000"),
+                listOf("кот", "собака"), 20000000)
+        )
+    }
 }

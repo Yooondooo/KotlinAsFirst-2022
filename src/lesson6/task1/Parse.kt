@@ -289,3 +289,29 @@ fun fromRoman(roman: String): Int = TODO()
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+
+
+fun movePets(movers: List<String>, pets: List<String>, limit: Int): List<String> {
+    var sumPets = 0
+    var imp = 0
+    val res = mutableListOf<String>()
+    for (i in movers){
+        if (i.matches(Regex("""([A-Z])\w+:( ([а-я]*) - ([0-9]*);)*"""))){
+            val comp = i.split(" ")
+            for (j in 1..comp.size - 3 step 3){
+                if (comp[j] in pets){
+                    sumPets += comp[j + 2].replace(";","").toInt()
+                    imp++
+                }
+            }
+            if (sumPets <= limit && imp == pets.size)
+                res.add(comp[0].replace(":",""))
+            sumPets = 0
+            imp = 0
+        }
+        else {
+            throw IllegalArgumentException()
+        }
+    }
+    return res
+}
