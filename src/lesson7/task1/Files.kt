@@ -351,6 +351,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
             writer.write("</p><p>")
             yr = false
         } else {
+            if (l == "") continue
             yr = true
             var del = false
             for (j in 0..l.length - 2) {
