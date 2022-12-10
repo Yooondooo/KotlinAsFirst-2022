@@ -377,7 +377,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
                     else -> writer.write(l[j].toString())
                 }
             }
-            if (l[l.length - 1] == '*' && l[l.length - 2] != '*' && l.isNotEmpty()) {
+            if (l[l.length - 1] == '*' && l[l.length - 2] != '*' && l.isEmpty()) {
                 writer.write(italics[i])
                 i = (i + 1) % 2
             } else writer.write(l[l.length - 1].toString())
