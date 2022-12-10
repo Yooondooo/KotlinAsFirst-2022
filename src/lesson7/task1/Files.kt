@@ -378,10 +378,11 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
             }
             if (l[l.length - 1] == '*') {
                 writer.write(italics[i])
+                i = (i + 1) % 2
             } else writer.write(l[l.length - 1].toString())
-            i = 0
-            b = 0
-            s = 0
+//            i = 0
+//            b = 0
+//            s = 0
         }
     }
     writer.write("</p></body></html>")
