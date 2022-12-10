@@ -346,6 +346,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     var b = 0
     var s = 0
     var yr = true
+    var del = false
     for (l in ifile) {
         if (l == "" && yr) {
             writer.write("</p><p>")
@@ -353,7 +354,6 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
         } else {
             if (l == "") continue
             yr = true
-            var del = false
             for (j in 0..l.length - 2) {
                 when {
                     del -> del = false
