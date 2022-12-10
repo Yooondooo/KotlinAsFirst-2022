@@ -354,16 +354,16 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
         } else {
             yr = true
             if (l == "") continue
-            for (j in 0..l.length - 2) {
+            for (j in l.indices) {
                 when {
                     del -> del = false
-                    l[j] == '~' && l[j + 1] == '~' -> {
+                    l[j] == '~' && l[j + 1] == '~' && j != l.lastIndex -> {
                         del = true
                         writer.write(strikethrough[s])
                         s = (s + 1) % 2
                     }
 
-                    l[j] == '*' && l[j + 1] == '*' -> {
+                    l[j] == '*' && l[j + 1] == '*'&& j != l.lastIndex -> {
                         del = true
                         writer.write(bold[b])
                         b = (b + 1) % 2
@@ -377,10 +377,10 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
                     else -> writer.write(l[j].toString())
                 }
             }
-            if (l[l.length - 1] == '*' && !del) {
-                writer.write(italics[i])
-                i = (i + 1) % 2
-            } else writer.write(l[l.length - 1].toString())
+//            if (l[l.length - 1] == '*' && !del) {
+//                writer.write(italics[i])
+//                i = (i + 1) % 2
+//            } else writer.write(l[l.length - 1].toString())
 //            i = 0
 //            b = 0
 //            s = 0
