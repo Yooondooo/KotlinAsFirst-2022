@@ -47,14 +47,15 @@ interface Matrix<E> {
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
 fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
-    if (height <= 0 || width <= 0) throw IllegalArgumentException()
-    val res = MatrixImpl<E>(height, width)
-    for (i in 0 until height) {
-        for (j in 0 until width) {
-            res[Cell(height, width)] = e
-        }
-    }
-    return res
+    TODO()
+//    if (height <= 0 || width <= 0) throw IllegalArgumentException()
+//    val res = MatrixImpl<E>(height, width)
+//    for (i in 0 until height) {
+//        for (j in 0 until width) {
+//            res[Cell(height, width)] = e
+//        }
+//    }
+//    return res
 }
 
 /**
@@ -62,56 +63,61 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
  *
  * Реализация интерфейса "матрица"
  */
-class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<E> {
-    //    override val height: Int = TODO()
-//
-//    override val width: Int = TODO()
+//class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<E> {
+class MatrixImpl<E> : Matrix<E> {
+    override val height: Int = TODO()
+
+    override val width: Int = TODO()
     private val map = mutableMapOf<Cell, E>()
 
     override fun get(row: Int, column: Int): E {
-        val cell = Cell(row, column)
-        val m = map[cell]
-        if (m != null)
-            return m
-        throw IllegalArgumentException()
+        TODO()
+//        val cell = Cell(row, column)
+//        val m = map[cell]
+//        if (m != null)
+//            return m
+//        throw IllegalArgumentException()
     }
 
     override fun get(cell: Cell): E {
-        val m = map[cell]
-        if (m != null)
-            return m
-        throw IllegalArgumentException()
+        TODO()
+//        val m = map[cell]
+//        if (m != null)
+//            return m
+//        throw IllegalArgumentException()
     }
 
     override fun set(row: Int, column: Int, value: E) {
-        map[Cell(row, column)] = value
+        TODO()
+//        map[Cell(row, column)] = value
     }
 
     override fun set(cell: Cell, value: E) {
-        map[cell] = value
+        TODO()
+//        map[cell] = value
     }
 
     override fun equals(other: Any?) = other is MatrixImpl<*> &&
             height == other.height &&
             width == other.width
 
-    override fun hashCode(): Int {
-        var result = height
-        result = 31 * result + width
-        result = 31 * result + map.hashCode()
-        return result
-    }
+//    override fun hashCode(): Int {
+//        var result = height
+//        result = 31 * result + width
+//        result = 31 * result + map.hashCode()
+//        return result
+//    }
 
-    override fun toString(): String {
-        var str = ""
-        for (i in 0 until height) {
-            for (j in 0 until width) {
-                str += map.get(Cell(i,j)).toString() + " "
-            }
-            str.trim()
-            str += "\n"
-        }
-        return str
-    }
+//    override fun toString(): String {
+//        var str = ""
+//        for (i in 0 until height) {
+//            for (j in 0 until width) {
+//                str += map.get(Cell(i,j)).toString() + " "
+//            }
+//            str.trim()
+//            str += "\n"
+//        }
+//        return str
+//    }
 }
 
