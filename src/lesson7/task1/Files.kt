@@ -171,7 +171,45 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    val inp = File(inputName).readLines()
+    var maxx = -1
+    var sum = 0
+    for (i in inp) {
+        maxx = max((i.trim()).length, maxx)
+    }
+    for (i in inp) {
+        if (i == "") {
+            writer.newLine()
+            continue
+        }
+        if (i.length == maxx) writer.write("${i.trim()}\n")
+        else {
+            val spl = i.trim().split(" ").toMutableList()
+            if (spl.size == 1) {
+                writer.write(spl[0])
+                writer.newLine()
+                continue
+            }
+            for (j in spl.indices) {
+                spl[j] = spl[j].trim()
+                sum += spl[j].length
+            }
+            var k = maxx - sum
+            var j = 0
+            while (k > 0) {
+                spl[j] += " "
+                j = (j + 1) % (spl.size - 1)
+                k--
+            }
+            for (j in spl.indices) {
+                writer.write(spl[j])
+            }
+            writer.newLine()
+            sum = 0
+        }
+    }
+    writer.close()
 }
 
 /**
@@ -363,7 +401,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
                         s = (s + 1) % 2
                     }
 
-                    l[j] == '*' && l[j + 1] == '*'&& j != l.lastIndex -> {
+                    l[j] == '*' && l[j + 1] == '*' && j != l.lastIndex -> {
                         del = true
                         writer.write(bold[b])
                         b = (b + 1) % 2
