@@ -191,13 +191,12 @@ fun alignFileByWidth(inputName: String, outputName: String) {
                 writer.newLine()
                 continue
             }
-            for (j in spl.indices) {
-                spl[j] = spl[j].trim()
+            for (j in spl.indices)
                 sum += spl[j].length
-            }
             var k = maxx - sum
             var j = 0
             while (k > 0) {
+                if (k == 0) break
                 spl[j] += " "
                 j = (j + 1) % (spl.size - 1)
                 k--
