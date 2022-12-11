@@ -185,7 +185,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
         }
         if (i.length == maxx) writer.write("${i.trim()}\n")
         else {
-            val spl = i.trim().split(" ").toMutableList()
+            val spl = i.trim().split(Regex("""\s+""")).toMutableList()
             if (spl.size == 1) {
                 writer.write(spl[0])
                 writer.newLine()
