@@ -384,6 +384,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     var s = 0
     var del = false
     var yr = 0
+    var pop3 = false
     while (yr <= ifile.size - 2){
         if (ifile[yr].isBlank() && ifile[yr + 1].isBlank())
             ifile.removeAt(yr + 1)
@@ -391,13 +392,14 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     }
     for (l in ifile) {
 //        if (l.isEmpty() && yr) {
-        if (l.isEmpty() || l.isBlank()) {
+        if ((l.isEmpty() || l.isBlank()) && pop3) {
 //            if (l.isEmpty())
                 writer.write("</p><p>")
 //            else
 //                writer.write("</p><p></p><p>")
 //            yr = false
         } else {
+            pop3 = !pop3
             val fiil = l.replace(Regex("[\\s\\n\\t]+"), " ").split("").toMutableList()
             if (l == "") continue
             println(fiil)
