@@ -385,22 +385,26 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     var yr = true
     var del = false
     for (l in ifile) {
-        if (l == "" && yr) {
-            writer.write("</p><p>")
-            yr = false
+//        if (l.isEmpty() && yr) {
+        if (l.isEmpty() || l.isBlank()) {
+            if (l.isEmpty())
+                writer.write("</p><p>")
+            else
+                writer.write("</p><p></p><p>")
+//            yr = false
         } else {
             yr = true
             if (l == "") continue
-            for (j in l.indices) {
+            for (j in 0 until l.length - 1) {
                 when {
                     del -> del = false
-                    l[j] == '~' && l[j + 1] == '~' && j != l.lastIndex -> {
+                    l[j] == '~' && l[j + 1] == '~' -> {
                         del = true
                         writer.write(strikethrough[s])
                         s = (s + 1) % 2
                     }
 
-                    l[j] == '*' && l[j + 1] == '*' && j != l.lastIndex -> {
+                    l[j] == '*' && l[j + 1] == '*' -> {
                         del = true
                         writer.write(bold[b])
                         b = (b + 1) % 2
@@ -414,13 +418,10 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
                     else -> writer.write(l[j].toString())
                 }
             }
-//            if (l[l.length - 1] == '*' && !del) {
-//                writer.write(italics[i])
-//                i = (i + 1) % 2
-//            } else writer.write(l[l.length - 1].toString())
-//            i = 0
-//            b = 0
-//            s = 0
+            if (l[l.length - 1] == '*' && !del) {
+                writer.write(italics[i])
+                i = (i + 1) % 2
+            } else writer.write(l[l.length - 1].toString())
         }
     }
     writer.write("</p></body></html>")
