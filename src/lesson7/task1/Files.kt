@@ -384,51 +384,54 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     var s = 0
     var del = false
     var yr = 0
-    if (ifile[0].isEmpty()) ifile.removeAt(0)
-    while (yr <= ifile.size - 2){
-        if (ifile[yr].isBlank() && ifile[yr + 1].isBlank())
-            ifile.removeAt(yr + 1)
-        else yr++
-    }
-    for (l in ifile) {
+    if (ifile.size == 0) writer.write("</p></body></html>")
+    else {
+        if (ifile[0].isEmpty()) ifile.removeAt(0)
+        while (yr <= ifile.size - 2) {
+            if (ifile[yr].isBlank() && ifile[yr + 1].isBlank())
+                ifile.removeAt(yr + 1)
+            else yr++
+        }
+        for (l in ifile) {
 //        if (l.isEmpty() && yr) {
-        if ((l.isEmpty() || l.isBlank())) {
+            if ((l.isEmpty() || l.isBlank())) {
 //            if (l.isEmpty())
                 writer.write("</p><p>")
 //            else
 //                writer.write("</p><p></p><p>")
 //            yr = false
-        } else {
-            val fiil = l.replace(Regex("[\\s\\n\\t]+"), " ").split("").toMutableList()
-            if (l == "") continue
-            println(fiil)
-            for (j in 0 until fiil.size - 1) {
-                when {
-                    del -> del = false
-                    fiil[j] == "~" && fiil[j + 1] == "~" -> {
-                        del = true
-                        writer.write(strikethrough[s])
-                        s = (s + 1) % 2
-                    }
+            } else {
+                val fiil = l.replace(Regex("[\\s\\n\\t]+"), " ").split("").toMutableList()
+                if (l == "") continue
+                println(fiil)
+                for (j in 0 until fiil.size - 1) {
+                    when {
+                        del -> del = false
+                        fiil[j] == "~" && fiil[j + 1] == "~" -> {
+                            del = true
+                            writer.write(strikethrough[s])
+                            s = (s + 1) % 2
+                        }
 
-                    fiil[j] == "*" && fiil[j + 1] == "*" -> {
-                        del = true
-                        writer.write(bold[b])
-                        b = (b + 1) % 2
-                    }
+                        fiil[j] == "*" && fiil[j + 1] == "*" -> {
+                            del = true
+                            writer.write(bold[b])
+                            b = (b + 1) % 2
+                        }
 
-                    fiil[j] == "*" -> {
-                        writer.write(italics[i])
-                        i = (i + 1) % 2
-                    }
+                        fiil[j] == "*" -> {
+                            writer.write(italics[i])
+                            i = (i + 1) % 2
+                        }
 
-                    else -> writer.write(fiil[j])
+                        else -> writer.write(fiil[j])
+                    }
                 }
+                if (fiil[fiil.size - 1] == "*" && !del) {
+                    writer.write(italics[i])
+                    i = (i + 1) % 2
+                } else writer.write(fiil[fiil.size - 1])
             }
-            if (fiil[fiil.size - 1] == "*" && !del) {
-                writer.write(italics[i])
-                i = (i + 1) % 2
-            } else writer.write(fiil[fiil.size - 1])
         }
     }
     writer.write("</p></body></html>")
