@@ -392,16 +392,12 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
                 ifile.removeAt(yr + 1)
             else yr++
         }
-        if (ifile[ifile.size - 1].isEmpty())
+        while (ifile[ifile.size - 1].isBlank()) {
             ifile.removeAt(ifile.size - 1)
+        }
         for (l in ifile) {
-//        if (l.isEmpty() && yr) {
             if ((l.isEmpty() || l.isBlank())) {
-//            if (l.isEmpty())
                 writer.write("</p><p>")
-//            else
-//                writer.write("</p><p></p><p>")
-//            yr = false
             } else {
                 val fiil = l.replace(Regex("[\\s\\n\\t]+"), " ").split("").toMutableList()
                 if (l == "") continue
