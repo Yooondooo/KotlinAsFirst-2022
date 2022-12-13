@@ -386,23 +386,18 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     var yr = 0
     if (ifile.size == 0) writer.write("</p></body></html>")
     else {
+        yr = ifile.size - 1
+        while (ifile[yr].isBlank()) {
+            if (ifile[yr].isEmpty())
+                ifile.removeAt(ifile.size - 1)
+            yr = ifile.size - 1
+        }
+        yr = 0
         while (yr <= ifile.size - 2) {
             if (ifile[0].isEmpty()) ifile.removeAt(0)
             if (ifile[yr].isBlank() && ifile[yr + 1].isBlank())
                 ifile.removeAt(yr + 1)
             else yr++
-        }
-        yr = ifile.size - 1
-        var t = 0
-        while (ifile[yr].isBlank()) {
-            if (ifile[yr].isEmpty() && t != 0)
-                ifile.removeAt(yr)
-            else
-                if (ifile[yr].isBlank() && t !=0)
-                    ifile.removeAt(yr)
-                else
-                    t++
-            yr = ifile.size - 1 - t
         }
         for (l in ifile) {
             if ((l.isEmpty() || l.isBlank())) {
