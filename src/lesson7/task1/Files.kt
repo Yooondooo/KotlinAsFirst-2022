@@ -386,12 +386,14 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     var yr = 0
     if (ifile.size == 0) writer.write("</p></body></html>")
     else {
-        if (ifile[0].isEmpty()) ifile.removeAt(0)
         while (yr <= ifile.size - 2) {
+            if (ifile[0].isEmpty()) ifile.removeAt(0)
             if (ifile[yr].isBlank() && ifile[yr + 1].isBlank())
                 ifile.removeAt(yr + 1)
             else yr++
         }
+        if (ifile[ifile.size - 1].isEmpty())
+            ifile.removeAt(ifile.size - 1)
         for (l in ifile) {
 //        if (l.isEmpty() && yr) {
             if ((l.isEmpty() || l.isBlank())) {
@@ -403,7 +405,6 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
             } else {
                 val fiil = l.replace(Regex("[\\s\\n\\t]+"), " ").split("").toMutableList()
                 if (l == "") continue
-                println(fiil)
                 for (j in 0 until fiil.size - 1) {
                     when {
                         del -> del = false
