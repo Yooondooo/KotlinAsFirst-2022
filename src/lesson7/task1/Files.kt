@@ -383,10 +383,10 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     var b = 0
     var s = 0
     var del = false
-    for (yr in 0 until ifile.size - 1){
-        if (ifile[yr].isBlank() && ifile[yr + 1].isBlank())
-            ifile.removeAt(yr)
-    }
+//    for (yr in 0 until ifile.size - 2){
+//        if (ifile[yr].isBlank() && ifile[yr + 1].isBlank())
+//            ifile.removeAt(yr)
+//    }
     for (l in ifile) {
 //        if (l.isEmpty() && yr) {
         if (l.isEmpty() || l.isBlank()) {
