@@ -387,41 +387,43 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     for (l in ifile) {
 //        if (l.isEmpty() && yr) {
         if (l.isEmpty() || l.isBlank()) {
-            if (l.isEmpty())
+//            if (l.isEmpty())
                 writer.write("</p><p>")
-            else
-                writer.write("</p><p></p><p>")
+//            else
+//                writer.write("</p><p></p><p>")
 //            yr = false
         } else {
+            val fiil = l.replace(Regex("[\\s\\n\\t]+"), " ").split("").toMutableList()
             yr = true
             if (l == "") continue
-            for (j in 0 until l.length - 1) {
+            println(fiil)
+            for (j in 0 until fiil.size - 1) {
                 when {
                     del -> del = false
-                    l[j] == '~' && l[j + 1] == '~' -> {
+                    fiil[j] == "~" && fiil[j + 1] == "~" -> {
                         del = true
                         writer.write(strikethrough[s])
                         s = (s + 1) % 2
                     }
 
-                    l[j] == '*' && l[j + 1] == '*' -> {
+                    fiil[j] == "*" && fiil[j + 1] == "*" -> {
                         del = true
                         writer.write(bold[b])
                         b = (b + 1) % 2
                     }
 
-                    l[j] == '*' -> {
+                    fiil[j] == "*" -> {
                         writer.write(italics[i])
                         i = (i + 1) % 2
                     }
 
-                    else -> writer.write(l[j].toString())
+                    else -> writer.write(fiil[j])
                 }
             }
-            if (l[l.length - 1] == '*' && !del) {
+            if (fiil[fiil.size - 1] == "*" && !del) {
                 writer.write(italics[i])
                 i = (i + 1) % 2
-            } else writer.write(l[l.length - 1].toString())
+            } else writer.write(fiil[fiil.size - 1])
         }
     }
     writer.write("</p></body></html>")
