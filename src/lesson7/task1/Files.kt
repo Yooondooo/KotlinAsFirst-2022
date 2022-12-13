@@ -374,7 +374,7 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
-    val ifile = File(inputName).readLines()
+    val ifile = File(inputName).readLines().toMutableList()
     writer.write("<html><body><p>")
     val italics = listOf<String>("<i>", "</i>")
     val bold = listOf<String>("<b>", "</b>")
@@ -382,8 +382,11 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     var i = 0
     var b = 0
     var s = 0
-    var yr = true
     var del = false
+    for (yr in 0 until ifile.size - 1){
+        if (ifile[yr].isBlank() && ifile[yr + 1].isBlank())
+            ifile.removeAt(yr)
+    }
     for (l in ifile) {
 //        if (l.isEmpty() && yr) {
         if (l.isEmpty() || l.isBlank()) {
@@ -394,7 +397,6 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
 //            yr = false
         } else {
             val fiil = l.replace(Regex("[\\s\\n\\t]+"), " ").split("").toMutableList()
-            yr = true
             if (l == "") continue
             println(fiil)
             for (j in 0 until fiil.size - 1) {
